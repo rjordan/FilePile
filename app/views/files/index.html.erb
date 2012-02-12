@@ -1,0 +1,43 @@
+
+<h2>Active Tags</h2>
+<div class="selected-tags">
+  <%= render 'selected_tags' %>
+</div>
+
+<h2>Available Tags</h2>
+<div class="available-tags">
+  <%= render 'available_tags' %>
+</div>
+
+<h2>Files</h2> 
+<%= link_to "<i class='icon-file'></i> Quick Add".html_safe, new_file_path, :class=>"btn" %>
+<div>
+  <ul class="thumbnails">
+    <% @files.each do |file| %>    
+    <li class="file-box span3">
+      <div class="thumbnail">
+        <%= image_tag('rails.png') %>
+        <div class="caption">
+          <h5><%= link_to file.name, file_path(file) %></h5>
+          <p>
+            <%= file.description %>
+          </p>
+          <p>
+            <table>
+              <tr>
+                <td class="span1">
+                  <i class="icon-file"></i>
+                  <%= link_to "<i class='icon-search'></i>".html_safe, details_file_path(file) %>
+                </td>
+                <td class="span2 align-right">
+                  <%= number_to_human_size(file.file_size) %>
+                </td>
+              </tr>
+            </table>
+          </p>
+        </div>
+      </div>
+    </li>
+    <% end %>    
+  </ul>
+</div>

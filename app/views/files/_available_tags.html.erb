@@ -1,0 +1,10 @@
+<ul class="breadcrumb">
+  <% @tags.each do |tag| %>
+    <li>
+      <%= link_to tag,
+                  add_tag_files_path(:id=>tag),
+                  :class=>"btn btn-primary",
+                  :method=>:post %>
+    </li>
+  <% end %>
+</ul>

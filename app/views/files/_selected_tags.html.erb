@@ -1,0 +1,16 @@
+<ul class="breadcrumb">
+  <li>
+    <%= link_to 'Clear', 
+                clear_tags_files_path, 
+                :class=>"btn btn-danger", 
+                :method=>:post %>
+  </li>
+  <% session["tags"].each do |tag| %>
+    <li>
+      <%= link_to "#{tag} <i class='icon-remove icon-white'></i>".html_safe,
+                  remove_tag_files_path(:id=>tag),
+                  :class=>"btn btn-primary",
+                  :method=>:post %>
+    </li>
+  <% end unless session["tags"].nil? %>
+</ul>
