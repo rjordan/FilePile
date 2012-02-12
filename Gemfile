@@ -35,6 +35,7 @@ gem 'jquery-rails'
 gem 'mongoid'
 gem 'mongoid_grid'
 gem 'bson_ext'
+gem 'rack-gridfs', :require=>'rack/gridfs'
 
 group :test, :development do
   gem 'rspec-rails'

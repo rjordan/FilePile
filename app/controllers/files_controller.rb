@@ -1,14 +1,17 @@
+require 'digest/sha2'
+
 class FilesController < ApplicationController
   def index
+    #thumbnails 260x180 looks good
     @files = FileDocument.scoped
     @files = @files.any_in(:tags=>session['tags']) unless session['tags'].nil? || session['tags']==[]
-    @tags = @files.collect { |d| d.tags }.flatten.uniq.compact - session['tags']
+    @tags = @files.collect { |d| d.tags }.flatten.uniq.compact.sort - session['tags']
   end
   
   def show
     file = FileDocument.find(params['id'])
-    send_data file.file.data, 
-              :content_type=>file.file_type, 
+    send_data file.file.read, 
+              :type=>file.file_type, 
               :filename=>file.file_name, 
               :disposition=>'inline'
   end
@@ -27,6 +30,19 @@ class FilesController < ApplicationController
   def add_tag
     tag = params[:id]
     session['tags'] << tag
+    session['tags'].sort!
     redirect_to :action=>:index
-  end  
+  end 
+  
+  def upload
+    document = params['document']
+    f = FileDocument.create(:tags=>session['tags'])
+    f.fingerprint = Digest::SHA512.hexdigest(File.read(document.tempfile.path))
+    f.file = document.tempfile
+    f.file_name = document.original_filename
+    #f.file_type = document.content_type                        
+    f.file_type = MIME::Types.type_for(document.original_filename).first.try(:content_type) || document.content_type
+    f.save
+    redirect_to :action=>:index
+  end 
 end

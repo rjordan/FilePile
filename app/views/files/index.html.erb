@@ -10,15 +10,23 @@
 </div>
 
 <h2>Files</h2> 
-<%= link_to "<i class='icon-file'></i> Quick Add".html_safe, new_file_path, :class=>"btn" %>
+
+<%= form_tag(upload_files_path, :multipart => true) do %>
+  <fieldset>
+  <%= file_field_tag 'document', :class=>"input-file" %>
+  <%= submit_tag('Upload', :class=>"btn") %>
+  </fieldset>
+<% end %>
+
+<%# @files.in_groups_of(4).each do |group| %>
 <div>
   <ul class="thumbnails">
-    <% @files.each do |file| %>    
+    <% for file in @files %>    
     <li class="file-box span3">
       <div class="thumbnail">
         <%= image_tag('rails.png') %>
         <div class="caption">
-          <h5><%= link_to file.name, file_path(file) %></h5>
+          <h5><%= link_to file.name, "/gridfs/#{file.file_id}" %></h5>
           <p>
             <%= file.description %>
           </p>
@@ -27,7 +35,7 @@
               <tr>
                 <td class="span1">
                   <i class="icon-file"></i>
-                  <%= link_to "<i class='icon-search'></i>".html_safe, details_file_path(file) %>
+                  <%= link_to "<i class='icon-search'></i>".html_safe, details_file_path(file), :class=>"btn" %>
                 </td>
                 <td class="span2 align-right">
                   <%= number_to_human_size(file.file_size) %>
@@ -38,6 +46,8 @@
         </div>
       </div>
     </li>
-    <% end %>    
+    <% end %>
   </ul>
 </div>
+<%# end %>
+
