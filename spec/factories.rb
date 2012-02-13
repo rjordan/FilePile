@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :file_document do
-    sequence(:name) {|n| "Document#{n}" }
+    sequence(:file_name) {|n| "Document#{n}" }
   end
 end

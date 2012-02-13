@@ -1,25 +1,18 @@
 require 'spec_helper'
 
 describe FilesController do
-  def valid_attributes
-    FactoryGirl.attributes_for(:product)
-  end
-  
-  def valid_session
-    { }
-  end
 
   describe "GET index" do
     it "assigns all files as @files" do
       file_document = FactoryGirl.create(:file_document) 
-      get :index, {}, valid_session
+      get :index
       assigns(:files).should include(file_document)
     end
   end
   
   describe "POST clear_tags" do
     it "resets session['tags'] to []" do
-      session['tags'] = ['test']
+      session['tags'] = %w( test )
       post :clear_tags
       response.should redirect_to(files_path)
       session['tags'].should eq([])
@@ -28,7 +21,7 @@ describe FilesController do
   
   describe "POST remove_tag" do
     it "removes a tag from session['tags']" do
-      session['tags'] = ['test']
+      session['tags'] = %w( test )
       post :remove_tag, :id=>'test'
       response.should redirect_to(files_path)
       session['tags'].should eq([])

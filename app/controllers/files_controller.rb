@@ -5,7 +5,8 @@ class FilesController < ApplicationController
     #thumbnails 260x180 looks good
     @files = FileDocument.scoped
     @files = @files.any_in(:tags=>session['tags']) unless session['tags'].nil? || session['tags']==[]
-    @tags = @files.collect { |d| d.tags }.flatten.uniq.compact.sort - session['tags']
+    @tags = @files.collect { |d| d.tags }.flatten.uniq.compact.sort
+    @tags -= session['tags'] unless session['tags'].nil?
   end
   
   def show
