@@ -30,7 +30,7 @@
       <div class="thumbnail">
         <%= image_tag('rails.png') %>
         <div class="caption">
-          <h5><%= link_to file.name, "/gridfs/#{file.file_id}" %></h5>
+          <h5><%= link_to file.name, "/gridfs/#{file.file_id}/#{file.file_name}" %></h5>
           <p>
             <%= file.description %>
           </p>
@@ -38,7 +38,7 @@
             <table>
               <tr>
                 <td class="span1">
-                  <%= link_to "<i class='icon-file'></i>".html_safe, "/gridfs/#{file.file_id}", :class=>"btn" %>
+                  <%= link_to "<i class='icon-file'></i>".html_safe, "/gridfs/#{file.file_id}/#{file.file_name}", :class=>"btn" %>
                   <%= link_to "<i class='icon-search'></i>".html_safe, file_path(file), :class=>"btn" %>
                   <%= link_to "<i class='icon-remove'></i>".html_safe, file_path(file), :confirm => "Are you sure?", :method => :delete, :class=>"btn" %>
                 </td>
