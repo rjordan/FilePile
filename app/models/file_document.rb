@@ -9,8 +9,15 @@ class FileDocument
   field :description
   attachment :file
   alias :name :file_name
-  
+
+  def set_data(filedata)
+    self.fingerprint = Digest::SHA512.hexdigest(filedata.read)
+    filedata.rewind
+    self.file=filedata
+  end
+
   #before_validation do
-  #  attributes[:fingerprint] = Digest::SHA512.hexdigest(attributes[:file].read)
+  #  puts "File Id: #{self.file_id}"
+  #  attributes[:fingerprint] = Digest::SHA512.hexdigest(attributes[:file].data)
   #end
 end

@@ -2,9 +2,8 @@
   <% @tags.each do |tag| %>
     <li>
       <%= link_to tag,
-                  add_tag_files_path(:id=>tag),
-                  :class=>"btn btn-primary",
-                  :method=>:post %>
+                  files_path(:tags=>@selected_tags<<tag),
+                  :class=>'btn btn-primary' %>
     </li>
   <% end %>
 </ul>
