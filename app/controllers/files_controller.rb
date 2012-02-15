@@ -1,5 +1,3 @@
-require 'digest/sha2'
-
 class FilesController < ApplicationController
   def index
     #thumbnails 260x180 looks good

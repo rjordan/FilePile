@@ -1,0 +1,20 @@
+<div id="preview-area"></div>
+
+<div id="selected-tags">
+  <%= @file.tags.inspect %>
+</div>
+
+<div id="available-tags">
+
+</div>
+
+<h2><%= @file.file_name %></h2>
+<p>
+  <strong>File Id:</strong> <%= @file.id %><br/>
+  <strong>File Type:</strong> <%= @file.file_type %><br/>
+  <strong>File Fingerprint:</strong> <small><%= @file.fingerprint %></small><br/>
+  <strong>File Size:</strong> <%= number_to_human_size(@file.file_size) %><br/>
+</p>
+
+<%= link_to '<i class="icon-folder-open"></i> Back'.html_safe, files_path, :class=>"btn" %>
+<%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_file_path(@file), :class=>"btn" %>
