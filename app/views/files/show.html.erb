@@ -1,11 +1,23 @@
 <div id="preview-area"></div>
 
 <div id="selected-tags">
-  <%= @file.tags.inspect %>
+  <ul class="breadcrumb">
+    <% @file.tags.each do |tag| %>
+      <li>
+        <%= link_to "#{tag} <i class='icon-remove icon-white'></i>".html_safe,
+                    '#', :class=>'btn btn-primary' %>
+      </li>
+    <% end %>
+  </ul>
 </div>
 
 <div id="available-tags">
-
+  <ul class="breadcrumb">
+    <% (FileDocument.all_tags-@file.tags).each do |tag| %>
+      <li>
+        <%= link_to tag, '#', :class=>'btn btn-primary' %>
+      </li>
+    <% end %>
 </div>
 
 <h2><%= @file.file_name %></h2>

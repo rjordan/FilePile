@@ -16,6 +16,10 @@ class FileDocument
     self.file=filedata
   end
 
+  def self.all_tags
+    all.collect { |d| d.tags }.flatten.uniq.compact.sort
+  end
+
   #before_validation do
   #  puts "File Id: #{self.file_id}"
   #  attributes[:fingerprint] = Digest::SHA512.hexdigest(attributes[:file].data)
