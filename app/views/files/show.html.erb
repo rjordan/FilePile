@@ -6,7 +6,7 @@
   <ul class="breadcrumb">
     <% @file.tags.each do |tag| %>
       <li>
-        <%= bootstrap_button_link(tag, '#', :icon=>:remove, :primary=>true) %>
+        <%= bootstrap_button_link(tag, file_tag_path(@file,tag), :method=>:delete, :icon=>:remove, :primary=>true) %>
       </li>
     <% end %>
   </ul>
@@ -16,7 +16,7 @@
   <ul class="breadcrumb">
     <% (FileDocument.all_tags-@file.tags).each do |tag| %>
       <li>
-        <%=  bootstrap_button_link tag, file_tag_path(@file, tag), :method=>:put, :primary=>true %>
+        <%= bootstrap_button_link tag, file_tag_path(@file, tag), :method=>:put, :primary=>true %>
       </li>
     <% end %>
    </ul>

@@ -3,7 +3,7 @@ class FilesController < ApplicationController
 
   def index
     #thumbnails 260x180 looks good
-    @selected_tags = [].concat(params['tags'].to_a).compact.reject(&:blank?)
+    @selected_tags = [].concat(params['tags'].to_a).compact.reject(&:blank?).sort
     @files = FileDocument.scoped
     @files = @files.all_in(:tags=>@selected_tags) unless @selected_tags.empty?
     @tags = @files.collect { |d| d.tags }.flatten.uniq.compact.sort-@selected_tags
