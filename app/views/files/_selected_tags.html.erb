@@ -6,9 +6,7 @@
   </li>
   <% @selected_tags.each do |tag| %>
     <li>
-      <%= link_to "#{tag} <i class='icon-remove icon-white'></i>".html_safe,
-                  files_path(:tags=>@selected_tags.tap{|a| a.delete(tag)}),
-                  :class=>"btn btn-primary" %>
+      <%=  bootstrap_button_link tag, files_path(:tags=>@selected_tags-[tag]), :primary=>true, :icon=>:remove %>
     </li>
   <% end unless @selected_tags.blank? %>
 </ul>

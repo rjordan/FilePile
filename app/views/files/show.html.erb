@@ -1,11 +1,12 @@
+<span data-bind="text: tags()"></span>
+
 <div id="preview-area"></div>
 
 <div id="selected-tags">
   <ul class="breadcrumb">
     <% @file.tags.each do |tag| %>
       <li>
-        <%= link_to "#{tag} <i class='icon-remove icon-white'></i>".html_safe,
-                    '#', :class=>'btn btn-primary' %>
+        <%= bootstrap_button_link(tag, '#', :icon=>:remove, :primary=>true) %>
       </li>
     <% end %>
   </ul>
@@ -15,18 +16,17 @@
   <ul class="breadcrumb">
     <% (FileDocument.all_tags-@file.tags).each do |tag| %>
       <li>
-        <%= link_to tag, '#', :class=>'btn btn-primary' %>
+        <%=  bootstrap_button_link tag, file_tag_path(@file, tag), :method=>:put, :primary=>true %>
       </li>
     <% end %>
+   </ul>
 </div>
 
 <h2><%= @file.file_name %></h2>
-<p>
-  <strong>File Id:</strong> <%= @file.id %><br/>
-  <strong>File Type:</strong> <%= @file.file_type %><br/>
-  <strong>File Fingerprint:</strong> <small><%= @file.fingerprint %></small><br/>
-  <strong>File Size:</strong> <%= number_to_human_size(@file.file_size) %><br/>
-</p>
+<p><strong>File Id:</strong> <%= @file.id %></p>
+<p><strong>File Type:</strong> <%= @file.file_type %></p>
+<p><strong>File Fingerprint:</strong> <small><%= @file.fingerprint %></small></p>
+<p><strong>File Size:</strong> <%= number_to_human_size(@file.file_size) %></p>
 
-<%= link_to '<i class="icon-folder-open"></i> Back'.html_safe, files_path, :class=>"btn" %>
-<%= link_to '<i class="icon-pencil"></i> Edit'.html_safe, edit_file_path(@file), :class=>"btn" %>
+<%= bootstrap_button_link 'Back', files_path, :icon=>'folder-open' %>
+<%= bootstrap_button_link 'Edit', edit_file_path(@file), :icon=>'pencil' %>

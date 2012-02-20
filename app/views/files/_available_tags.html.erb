@@ -1,9 +1,7 @@
 <ul class="breadcrumb">
   <% @tags.each do |tag| %>
     <li>
-      <%= link_to tag,
-                  files_path(:tags=>@selected_tags<<tag),
-                  :class=>'btn btn-primary' %>
+      <%= bootstrap_button_link tag, files_path(:tags=>@selected_tags+[tag]), :primary=>true %>
     </li>
   <% end %>
 </ul>

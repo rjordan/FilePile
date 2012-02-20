@@ -1,3 +1,21 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+viewModel =
+  filename: ko.observable('test.png')
+  name: ko.observable('test')
+  tags: ko.observable([])
+
+
+viewModel.test = () ->
+  "Hello #{this.name()}."
+viewModel.refresh = () ->
+  $.ajax '/files/tags',
+    type: 'get'
+    dataType: 'json'
+    error: (jqXHR, textStatus, errorThrown) ->
+      alert textStatus
+    success: (data) =>
+      this.tags(data)
+
+
+jQuery ->
+  ko.applyBindings(viewModel)
+  viewModel.refresh()

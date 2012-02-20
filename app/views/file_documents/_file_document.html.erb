@@ -1,0 +1,25 @@
+<li class="file-box span3">
+  <div class="thumbnail">
+    <%= image_tag('rails.png') %>
+    <div class="caption">
+      <h5><%= link_to file_document.name, "/gridfs/#{file_document.file_id}/#{file_document.file_name}" %></h5>
+      <p>
+        <%= file_document.description %>
+      </p>
+      <p>
+      <table>
+        <tr>
+          <td class="span1">
+            <%= link_to "<i class='icon-file'></i>".html_safe, "/gridfs/#{file_document.file_id}/#{file_document.file_name}", :class=>"btn" %>
+            <%= link_to "<i class='icon-search'></i>".html_safe, file_path(file_document), :class=>"btn" %>
+            <%= link_to "<i class='icon-remove'></i>".html_safe, file_path(file_document), :confirm => "Are you sure?", :method => :delete, :class=>"btn" %>
+          </td>
+          <td class="span2 align-right">
+            <%= number_to_human_size(file_document.file_size) %>
+          </td>
+        </tr>
+      </table>
+      </p>
+    </div>
+  </div>
+</li>
