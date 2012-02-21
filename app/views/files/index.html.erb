@@ -12,12 +12,10 @@
 <h2>Files</h2> 
 
 <%= form_tag files_path, :multipart=>true, :class=>"form-search" do %>
-  <fieldset>
+  <fieldset class="control-group">
     <%= hidden_field_tag :tags, @selected_tags %>
-    <div class="control-group">
-      <%= file_field_tag 'document', :class=>"input-file" %>
-    </div>
-    <div class="control-group">
+    <div class="controls">
+      <%= file_field_tag 'document', :class=>"input-file span4" %>
       <%= submit_tag('Upload', :class=>"btn") %>
     </div>
   </fieldset>
