@@ -1,5 +1,3 @@
-<span data-bind="text: tags()"></span>
-
 <div id="preview-area"></div>
 
 <div id="selected-tags">
@@ -22,6 +20,15 @@
    </ul>
 </div>
 
+<%= form_tag file_tags_path(@file), :class=>"form-search" do %>
+  <fieldset class="control-group">
+    <div class="controls">
+      <%= text_field_tag 'tags' %>
+      <%= submit_tag('Add Tags', :class=>"btn") %>
+    </div>
+  </fieldset>
+<% end %>
+
 <h2><%= @file.file_name %></h2>
 <p><strong>File Id:</strong> <%= @file.id %></p>
 <p><strong>File Type:</strong> <%= @file.file_type %></p>
@@ -29,4 +36,3 @@
 <p><strong>File Size:</strong> <%= number_to_human_size(@file.file_size) %></p>
 
 <%= bootstrap_button_link 'Back', files_path, :icon=>'folder-open' %>
-<%= bootstrap_button_link 'Edit', edit_file_path(@file), :icon=>'pencil' %>

@@ -5,7 +5,7 @@ describe 'files/show.html.erb' do
 
   before do
     @file_doc = FactoryGirl.create(:file_document, :tags=>['tag1'])
-    FileDocument.stub(:all_tags).and_return(['tag1','tag2'])
+    FileDocument.stub(:all_tags).and_return(['tag1', 'tag2'])
     visit file_path(@file_doc)
   end
 
@@ -30,7 +30,4 @@ describe 'files/show.html.erb' do
     page.should have_link('Back', :href=>files_path)
   end
 
-  it "should have an edit button" do
-    page.should have_link('Edit', :href=>edit_file_path(@file_doc))
-  end
 end
