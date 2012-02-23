@@ -12,6 +12,7 @@ class FilesController < ApplicationController
 
   def show
     @file = FileDocument.find(params['id'])
+    respond_with @file
   end
 
   def destroy
