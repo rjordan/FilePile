@@ -9,21 +9,50 @@
   <%= render 'available_tags' %>
 </div>
 
-<h2>Files</h2> 
-
-<%= form_tag files_path, :multipart=>true, :class=>"form-search" do %>
-  <fieldset class="control-group">
-    <div class="controls">
-      <%= hidden_field_tag :tags, @selected_tags %>
-      <%= file_field_tag 'document', :class=>"input-file span4" %>
-      <%= submit_tag('Upload', :class=>"btn") %>
-    </div>
-  </fieldset>
-<% end %>
-
 <div>
-  <ul class="thumbnails">
-    <%= render @files %>
-  </ul>
+  <h2>Files</h2>
+  <span class="btn btn-success fileinput-button">
+    <i class="icon-plus icon-white"></i>
+    <span>Add files...</span>
+    <input id="fileupload" type="file" name="document" multiple>
+  </span>
+  <a class="btn btn-danger" id="btn-delete"><i class="icon-ban-circle icon-white"></i> <span>Delete</span></a>
+  <input type="text"></input> <a class="btn btn-success" id="btn-add-tag">Add Tags</a>
 </div>
+
+<br/>
+
+<table class="table table-bordered table-striped" id="file-list">
+  <thead>
+    <tr>
+      <td class="select"><input type="checkbox" id="select-all"></input></td>
+      <td class="actions">Actions</td>
+      <td>Filename</td>
+      <td>Size</td>
+      <td>Tags</td>
+    </tr>
+  </thead>
+  <tbody>
+  <% @files.each do |file| %>
+    <tr>
+      <td class="select"><input type="checkbox" name="file_ids[]" value="<%= file._id %>"></input></td>
+      <td class="align-center">
+        <%= link_to "<i class='icon-file'></i>".html_safe, "/gridfs/#{file.file_id}/#{file.file_name}", :class=>"btn" %>
+        <%= link_to "<i class='icon-search'></i>".html_safe, file_path(file), :class=>"btn" %>
+      </td>
+      <td><%= link_to file.name, "/gridfs/#{file.file_id}/#{file.file_name}" %></td>
+      <td class="align-right">
+        <%= number_to_human_size(file.file_size) %>
+      </td>
+      <td>
+        <% file.tags.each do |tag| %>
+          <span class="label label-info"><%= tag %></span>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
 

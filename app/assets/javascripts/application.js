@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require knockout-2.0.0.js
+//= require jquery.iframe-transport
+//= require jquery.fileupload
 //= require_tree .
 
