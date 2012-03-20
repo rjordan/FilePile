@@ -1,4 +1,13 @@
+class FilesList
+  files: ko.observableArray([])
+  updateList: =>
+    $.getJSON "/files.json", (data) =>
+      this.files(data)
+
+fileList = new FilesList()
+
 #class FileModel
+#  id: ko.observable(0)
 #  filename: ko.observable('(Unknown)')
 #  tags: ko.observableArray([])
 #  load: (id) =>
@@ -9,11 +18,19 @@
 #    file = new FileModel()
 #    file.load(id)
 #    file
-#
-#jQuery ->
-#  ko.applyBindings(FileModel.find('4f39ff66c78e6a2fcc000016'))
+
+
+selectedItems = ->
+  list = []
+  $("INPUT[type='checkbox']:checked").each (index, elem) ->
+    list.push(elem.value)
+  list
+
 
 jQuery ->
+  ko.applyBindings(fileList)
+  fileList.updateList()
+
   $('#select-all').click (sender) ->
     $("INPUT[type='checkbox']").attr('checked', $(this).is(':checked'));
 
@@ -21,15 +38,15 @@ jQuery ->
     alert "Klick"
 
   $('#btn-delete').click ->
-      list = []
-      $("INPUT[type='checkbox']:checked").each (index, elem) ->
-        list.push(elem.value)
+      list = selectedItems()
+      alert list.filter (val) ->
+        val != 'on'
       #confirm
-      alert list
       $.each list, (index) ->
         $.ajax
             url: "/files/#{list[index]}"
             type: 'DELETE'
+        #remove records from files
 
   $('#fileupload').fileupload
     dataType: 'json'

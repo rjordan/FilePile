@@ -1,3 +1,21 @@
+<script type="text/html" id="filelist-template">
+  <tr>
+    <td class="select">
+      <input type="checkbox" name="file_ids[]" value="${_id}"></input>
+    </td>
+    <td>
+      <a href="/gridfs/${file_id.$oid}/${file_name}">${file_name}</a>
+    </td>
+    <td>
+      {{each tags}}
+        <span class="label label-info">${$value}</span>
+      {{/each}}
+    </td>
+    <td class="align-right span1">
+      ${file_size}
+    </td>
+  </tr>
+</script>
 
 <h2>Active Tags</h2>
 <div id="selected-tags">
@@ -9,8 +27,8 @@
   <%= render 'available_tags' %>
 </div>
 
+<h2>Files</h2>
 <div>
-  <h2>Files</h2>
   <span class="btn btn-success fileinput-button">
     <i class="icon-plus icon-white"></i>
     <span>Add files...</span>
@@ -19,6 +37,8 @@
   <a class="btn btn-danger" id="btn-delete"><i class="icon-ban-circle icon-white"></i> <span>Delete</span></a>
   <input type="text"></input> <a class="btn btn-success" id="btn-add-tag">Add Tags</a>
 </div>
+<div id="upload-list">
+</div>
 
 <br/>
 
@@ -26,33 +46,12 @@
   <thead>
     <tr>
       <td class="select"><input type="checkbox" id="select-all"></input></td>
-      <td class="actions">Actions</td>
       <td>Filename</td>
-      <td>Size</td>
       <td>Tags</td>
+      <td class="span1">Size</td>
     </tr>
   </thead>
-  <tbody>
-  <% @files.each do |file| %>
-    <tr>
-      <td class="select"><input type="checkbox" name="file_ids[]" value="<%= file._id %>"></input></td>
-      <td class="align-center">
-        <%= link_to "<i class='icon-file'></i>".html_safe, "/gridfs/#{file.file_id}/#{file.file_name}", :class=>"btn" %>
-        <%= link_to "<i class='icon-search'></i>".html_safe, file_path(file), :class=>"btn" %>
-      </td>
-      <td><%= link_to file.name, "/gridfs/#{file.file_id}/#{file.file_name}" %></td>
-      <td class="align-right">
-        <%= number_to_human_size(file.file_size) %>
-      </td>
-      <td>
-        <% file.tags.each do |tag| %>
-          <span class="label label-info"><%= tag %></span>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
+  <tbody data-bind="template: { name: 'filelist-template', foreach: files }">
   </tbody>
 </table>
-
-
 
