@@ -1,31 +1,38 @@
 class FilesList
   files: ko.observableArray([])
+  tags: ko.observableArray([])
+  selectedTags: ko.observableArray([])
+  resource_url: "/files"
   updateList: =>
-    $.getJSON "/files.json", (data) =>
-      this.files(data)
+    $.getJSON @resource_url, (data) => @files(data)
+  find: (id) =>
+    $.grep @files(), (item) ->item._id==id
+  delete: (id) =>
+    file = @find(id)
+    $.ajax
+        url: "#{@resource_url}/#{id}"
+        type: 'DELETE'
+    @files(@files.remove(file))
 
-fileList = new FilesList()
+@fileList = new FilesList()
 
-#class FileModel
-#  id: ko.observable(0)
-#  filename: ko.observable('(Unknown)')
-#  tags: ko.observableArray([])
-#  load: (id) =>
-#    $.getJSON "/files/#{id}", (data) =>
-#      @filename(data.file_name)
-#      @tags(data.tags)
-#  @find: (id) ->
-#    file = new FileModel()
-#    file.load(id)
-#    file
-
-
-selectedItems = ->
+@selectedItems = ->
   list = []
+  list = list.filter (val) -> val=='on'
   $("INPUT[type='checkbox']:checked").each (index, elem) ->
     list.push(elem.value)
   list
 
+@formatFileSize = (bytes) ->
+  if (typeof bytes != 'number')
+      return ''
+  if (bytes >= 1000000000)
+      return (bytes / 1000000000).toFixed(2) + ' GB'
+  if (bytes >= 1000000)
+      return (bytes / 1000000).toFixed(2) + ' MB'
+  if (bytes >= 1000)
+      return (bytes / 1000).toFixed(2) + ' KB'
+  return bytes.toFixed(2) + 'B'
 
 jQuery ->
   ko.applyBindings(fileList)
@@ -39,22 +46,18 @@ jQuery ->
 
   $('#btn-delete').click ->
       list = selectedItems()
-      alert list.filter (val) ->
-        val != 'on'
-      #confirm
+      alert list
+      #confirm?
       $.each list, (index) ->
-        $.ajax
-            url: "/files/#{list[index]}"
-            type: 'DELETE'
-        #remove records from files
+        fileList.delete(list[index])
 
   $('#fileupload').fileupload
     dataType: 'json'
     url: '/files'
-    formData: {"tags":[]}
+    formData: {"tags": fileList.selectedTags()}
     done: (e, data) ->
       $.each data.result, (index, file) ->
         alert "Index #{index}"
-    progress: (e, data) ->
-      progress = parseInt(data.loaded / data.total * 100, 10)
-      alert progress
+    #progress: (e, data) ->
+    #  progress = parseInt(data.loaded / data.total * 100, 10)
+    #  alert progress

@@ -8,11 +8,11 @@
     </td>
     <td>
       {{each tags}}
-        <span class="label label-info">${$value}</span>
+      <span class="label label-info">${$value}</span>
       {{/each}}
     </td>
-    <td class="align-right span1">
-      ${file_size}
+    <td class="span2 align-right">
+      ${formatFileSize(file_size)}
     </td>
   </tr>
 </script>
@@ -37,19 +37,21 @@
   <a class="btn btn-danger" id="btn-delete"><i class="icon-ban-circle icon-white"></i> <span>Delete</span></a>
   <input type="text"></input> <a class="btn btn-success" id="btn-add-tag">Add Tags</a>
 </div>
-<div id="upload-list">
-</div>
+
+<table class="table table-striped">
+  <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+</table>
 
 <br/>
 
 <table class="table table-bordered table-striped" id="file-list">
   <thead>
-    <tr>
-      <td class="select"><input type="checkbox" id="select-all"></input></td>
-      <td>Filename</td>
-      <td>Tags</td>
-      <td class="span1">Size</td>
-    </tr>
+  <tr>
+    <td class="select"><input type="checkbox" id="select-all"></input></td>
+    <td>Filename</td>
+    <td>Tags</td>
+    <td class="span1">Size</td>
+  </tr>
   </thead>
   <tbody data-bind="template: { name: 'filelist-template', foreach: files }">
   </tbody>
