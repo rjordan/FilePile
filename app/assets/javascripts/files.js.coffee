@@ -26,6 +26,12 @@ class FilesList
         data: {"tags": tag}
         type: 'POST'
 
+#class FileDocument
+#  id: ko.Observable()
+#  name: ko.Observable("*Unknown*")
+#  tags: ko.ObservableArray([])
+#  file_id: ko.Observable();
+
 @fileList = new FilesList()
 
 @selectedItems = ->
@@ -50,7 +56,8 @@ jQuery ->
   ko.applyBindings(fileList)
   fileList.updateList()
 
-  $('#clear-tags').click ->
+  $('#clear-tags').click (event) ->
+    event.preventDefault()
     fileList.selectedTags([])
 
   $('#available-tags a').live 'click', () ->
