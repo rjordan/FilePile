@@ -4,21 +4,33 @@ class FilesList
   selectedTags: ko.observableArray([])
   resource_url: "/files"
   updateList: =>
-    $.getJSON @resource_url, (data) => @files(data)
+    $.ajax
+      url: @resource_url,
+      dataType: 'JSON'
+      data: {"tags": @selectedTags}
+      success: (data) => @files(data)
   find: (id) =>
-    $.grep @files(), (item) ->item._id==id
+    $.grep(@files(), (item) -> item._id==id)[0]
   delete: (id) =>
     file = @find(id)
     $.ajax
         url: "#{@resource_url}/#{id}"
         type: 'DELETE'
     @files(@files.remove(file))
+  addTag: (id, tag) =>
+    file = @find(id)
+    file.tags.push(tag)
+    $.ajax
+        url: "#{@resource_url}/#{id}/tags"
+        dataType: 'JSON'
+        data: {"tags": tag}
+        type: 'POST'
 
 @fileList = new FilesList()
 
 @selectedItems = ->
   list = []
-  list = list.filter (val) -> val=='on'
+  #list = list.filter (val) -> val==on
   $("INPUT[type='checkbox']:checked").each (index, elem) ->
     list.push(elem.value)
   list
@@ -38,26 +50,39 @@ jQuery ->
   ko.applyBindings(fileList)
   fileList.updateList()
 
+  $('#clear-tags').click ->
+    fileList.selectedTags([])
+
+  $('#available-tags a').live 'click', () ->
+    fileList.tags.pop($(this).text())
+    fileList.selectedTags.push($(this).text())
+
   $('#select-all').click (sender) ->
     $("INPUT[type='checkbox']").attr('checked', $(this).is(':checked'));
 
   $('#btn-add-tag').click (sender) ->
-    alert "Klick"
+    new_tags = $('#new_tags').val()
+    $('#new_tags').val('')
+    new_tag_array = new_tags.split(',')
+    files = selectedItems()
+    for file in files
+      for tag in new_tag_array
+        fileList.addTag(file, tag)
 
   $('#btn-delete').click ->
       list = selectedItems()
       alert list
       #confirm?
-      $.each list, (index) ->
-        fileList.delete(list[index])
+      for item in list
+        fileList.delete(item)
 
   $('#fileupload').fileupload
     dataType: 'json'
     url: '/files'
-    formData: {"tags": fileList.selectedTags()}
+    formData: {"tags": []}
     done: (e, data) ->
       $.each data.result, (index, file) ->
         alert "Index #{index}"
-    #progress: (e, data) ->
-    #  progress = parseInt(data.loaded / data.total * 100, 10)
-    #  alert progress
+    progress: (e, data) ->
+      progress = parseInt(data.loaded / data.total * 100, 10)
+      alert progress

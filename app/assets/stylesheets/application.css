@@ -19,11 +19,11 @@
 }
 
 .align-center {
-  text-align: center;
+  text-align: center !important;
 }
 
 .align-right {
-  text-align: right;
+  text-align: right !important;
 }
 
 #main-content {

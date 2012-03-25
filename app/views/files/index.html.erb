@@ -1,33 +1,49 @@
 <script type="text/html" id="filelist-template">
-  <tr>
+  <tr data-id="${_id}" data-index="${$idx}">
     <td class="select">
       <input type="checkbox" name="file_ids[]" value="${_id}"></input>
     </td>
     <td>
-      <a href="/gridfs/${file_id.$oid}/${file_name}">${file_name}</a>
+      <a href="/gridfs/${file_id}/${file_name}">${file_name}</a>
     </td>
     <td>
       {{each tags}}
       <span class="label label-info">${$value}</span>
       {{/each}}
     </td>
-    <td class="span2 align-right">
+    <td class="align-right span2">
       ${formatFileSize(file_size)}
     </td>
   </tr>
 </script>
 
+<script type="text/html" id="tag-template">
+  <li><a href="#" class="btn btn-primary">${$data}</a></li>
+</script>
+<%# bootstrap_button_link tag, files_path(:tags=>@selected_tags+[tag]), :primary=>true %>
+
 <h2>Active Tags</h2>
 <div id="selected-tags">
   <%= render 'selected_tags' %>
-</div>
+
+<ul class="breadcrumb">
+  <li>
+    <%= link_to 'Clear', files_path(), :class=>"btn btn-danger", :id=>"clear-tags" %>
+  </li>
+  <!-- template: { name: 'tag-template', foreach: selectedTags } -->
+  <!-- /ko -->
+</ul>
 
 <h2>Available Tags</h2>
 <div id="available-tags">
   <%= render 'available_tags' %>
+
+  <ul class="breadcrumb" data-bind="template: { name: 'tag-template', foreach: tags }">
+  </ul>
 </div>
 
 <h2>Files</h2>
+<%= form_tag files_path do %>
 <div>
   <span class="btn btn-success fileinput-button">
     <i class="icon-plus icon-white"></i>
@@ -35,12 +51,14 @@
     <input id="fileupload" type="file" name="document" multiple>
   </span>
   <a class="btn btn-danger" id="btn-delete"><i class="icon-ban-circle icon-white"></i> <span>Delete</span></a>
-  <input type="text"></input> <a class="btn btn-success" id="btn-add-tag">Add Tags</a>
+  <input type="text" id="new_tags"></input> <a class="btn btn-success" id="btn-add-tag">Add Tags</a>
 </div>
+<% end %>
 
 <table class="table table-striped">
   <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
 </table>
+
 
 <br/>
 
