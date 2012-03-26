@@ -1,80 +1,94 @@
+ko.extenders.selectedTagsChange = (target) ->
+  target.subscribe (newvalue) ->
+    fileList.updateList()
+  target
+
 class FilesList
   files: ko.observableArray([])
   tags: ko.observableArray([])
-  selectedTags: ko.observableArray([])
-  resource_url: "/files"
+  selectedTags: ko.observableArray([]).extend({selectedTagsChange: 1})
+  @resource_url: "/files"
   updateList: =>
     $.ajax
       url: @resource_url,
       dataType: 'JSON'
       data: {"tags": @selectedTags}
-      success: (data) => @files(data)
+      success: (data) =>
+        @files([]) #if page=1
+        for file in data
+          @files.push( new FileDocument(file) )
   find: (id) =>
-    $.grep(@files(), (item) -> item._id==id)[0]
+    $.grep(@files(), (item) -> item.id==id)[0]
   delete: (id) =>
     file = @find(id)
     $.ajax
         url: "#{@resource_url}/#{id}"
         type: 'DELETE'
     @files(@files.remove(file))
-  addTag: (id, tag) =>
-    file = @find(id)
-    file.tags.push(tag)
+
+class FileDocument
+  tags: ko.observableArray([])
+  constructor: (file) ->
+    @id = file._id
+    @file_name = file.file_name
+    @tags(file.tags)
+    @file_id=file.file_id
+    @file_size=file.file_size
+    @location = "#{@resource_url}/#{@id}"
+  addTag: (tag) =>
+    @tags.push(tag)
     $.ajax
-        url: "#{@resource_url}/#{id}/tags"
+        url: "#{@location}/tags"
         dataType: 'JSON'
         data: {"tags": tag}
         type: 'POST'
+  removeTag: (tag) =>
+    @tags.pop(tag)
+    $.ajax
+        url: "#{@location}/tags"
+        dataType: 'JSON'
+        data: {"tags": tag}
+        type: 'DELETE'
 
-#class FileDocument
-#  id: ko.Observable()
-#  name: ko.Observable("*Unknown*")
-#  tags: ko.ObservableArray([])
-#  file_id: ko.Observable();
+@selectedItems = ->
+  (item.value for item in $("INPUT[type='checkbox']:checked"))
+
+@formatFileSize = (bytes) ->
+  return '' if (typeof bytes != 'number')
+  return (bytes / 1000000000).toFixed(2) + ' GB' if (bytes >= 1000000000)
+  return (bytes / 1000000).toFixed(2) + ' MB' if (bytes >= 1000000)
+  return (bytes / 1000).toFixed(2) + ' KB' if (bytes >= 1000)
+  return bytes.toFixed(2) + 'B'
+
+
 
 @fileList = new FilesList()
 
-@selectedItems = ->
-  list = []
-  #list = list.filter (val) -> val==on
-  $("INPUT[type='checkbox']:checked").each (index, elem) ->
-    list.push(elem.value)
-  list
-
-@formatFileSize = (bytes) ->
-  if (typeof bytes != 'number')
-      return ''
-  if (bytes >= 1000000000)
-      return (bytes / 1000000000).toFixed(2) + ' GB'
-  if (bytes >= 1000000)
-      return (bytes / 1000000).toFixed(2) + ' MB'
-  if (bytes >= 1000)
-      return (bytes / 1000).toFixed(2) + ' KB'
-  return bytes.toFixed(2) + 'B'
-
 jQuery ->
   ko.applyBindings(fileList)
+  #$('body').trigger 'refresh'
   fileList.updateList()
 
   $('#clear-tags').click (event) ->
     event.preventDefault()
     fileList.selectedTags([])
 
-  $('#available-tags a').live 'click', () ->
+  $('#available-tags a').live 'click', (event) ->
+    event.preventDefault()
     fileList.tags.pop($(this).text())
     fileList.selectedTags.push($(this).text())
 
-  $('#select-all').click (sender) ->
+  $('#select-all').click ->
     $("INPUT[type='checkbox']").attr('checked', $(this).is(':checked'));
 
-  $('#btn-add-tag').click (sender) ->
+  $('#btn-add-tag').click ->
     new_tags = $('#new_tags').val()
-    $('#new_tags').val('')
     new_tag_array = new_tags.split(',')
-    files = selectedItems()
+    files = ( fileList.find(item) for item in selectedItems())
     for file in files
       for tag in new_tag_array
-        fileList.addTag(file, tag)
+        file.addTag(tag)
+    $('#new_tags').val('')
 
   $('#btn-delete').click ->
       list = selectedItems()

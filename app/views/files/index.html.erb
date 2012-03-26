@@ -1,7 +1,7 @@
 <script type="text/html" id="filelist-template">
-  <tr data-id="${_id}" data-index="${$idx}">
+  <tr data-id="${id}">
     <td class="select">
-      <input type="checkbox" name="file_ids[]" value="${_id}"></input>
+      <input type="checkbox" name="file_ids[]" value="${id}"></input>
     </td>
     <td>
       <a href="/gridfs/${file_id}/${file_name}">${file_name}</a>
