@@ -15,8 +15,11 @@ class FilesList
       data: {"tags": @selectedTags}
       success: (data) =>
         @files([]) #if page=1
+        @tags([])
         for file in data
           @files.push( new FileDocument(file) )
+          for tag in file.tags
+            @tags.push(tag) unless tag in @tags()
   find: (id) =>
     $.grep(@files(), (item) -> item.id==id)[0]
   delete: (id) =>
@@ -26,15 +29,17 @@ class FilesList
         type: 'DELETE'
     @files(@files.remove(file))
 
-class FileDocument
+class @FileDocument
   tags: ko.observableArray([])
   constructor: (file) ->
     @id = file._id
     @file_name = file.file_name
     @tags(file.tags)
+    #for tag in file.tags
+    #  @tags.push(tag)
     @file_id=file.file_id
     @file_size=file.file_size
-    @location = "#{@resource_url}/#{@id}"
+    @location = "/files/#{@file_id}"
   addTag: (tag) =>
     @tags.push(tag)
     $.ajax
@@ -61,7 +66,6 @@ class FileDocument
   return bytes.toFixed(2) + 'B'
 
 
-
 @fileList = new FilesList()
 
 jQuery ->
@@ -73,10 +77,15 @@ jQuery ->
     event.preventDefault()
     fileList.selectedTags([])
 
-  $('#available-tags a').live 'click', (event) ->
-    event.preventDefault()
-    fileList.tags.pop($(this).text())
+$('#available-tags a').live 'click', (event) ->
+#    event.preventDefault()
     fileList.selectedTags.push($(this).text())
+#    fileList.tags.pop($(this).text())
+
+
+  $('#selected-tags a').live 'click', (event) ->
+    event.preventDefault()
+    fileList.selectedTags.remove($(this).text())
 
   $('#select-all').click ->
     $("INPUT[type='checkbox']").attr('checked', $(this).is(':checked'));

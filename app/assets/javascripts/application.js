@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require bootstrap.min
 //= require jquery.tmpl.min
 //= require knockout-2.0.0.js
 //= require jquery.iframe-transport

@@ -85,6 +85,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.17.2)
+    mocha_rails (0.0.3)
+      rails (>= 3.1.0)
     mongo (1.5.2)
       bson (= 1.5.2)
     mongoid (2.4.3)
@@ -96,6 +98,9 @@ GEM
     multi_json (1.0.4)
     nokogiri (1.5.0)
     polyglot (0.3.3)
+    rabl (0.6.0)
+      activesupport (>= 2.3.14)
+      multi_json (~> 1.0.3)
     rack (1.4.0)
     rack-cache (1.1)
       rack (>= 0.4)
@@ -181,8 +186,10 @@ DEPENDENCIES
   cucumber-rails
   factory_girl_rails
   jquery-rails
+  mocha_rails
   mongoid
   mongoid_grid
+  rabl
   rack-gridfs
   rails (= 3.2.1)
   rspec-rails

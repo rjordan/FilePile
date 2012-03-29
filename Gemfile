@@ -36,9 +36,11 @@ gem 'mongoid'
 gem 'mongoid_grid'
 gem 'bson_ext'
 gem 'rack-gridfs', :require=>'rack/gridfs'
+gem 'rabl'
 
 group :test, :development do
   gem 'rspec-rails'
+  gem 'mocha_rails'
 end
 
 group :test do
