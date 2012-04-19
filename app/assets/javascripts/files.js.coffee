@@ -29,7 +29,7 @@ class FilesList
         type: 'DELETE'
     @files(@files.remove(file))
 
-class @FileDocument
+class FileDocument
   tags: ko.observableArray([])
   constructor: (file) ->
     @id = file._id
@@ -41,20 +41,20 @@ class @FileDocument
     @file_size=file.file_size
     @location = "/files/#{@file_id}"
   addTag: (tag) =>
-    @tags.push(tag)
     $.ajax
         url: "#{@location}/tags"
         dataType: 'JSON'
         data: {"tags": tag}
         type: 'POST'
+    @tags.push(tag)
   removeTag: (tag) =>
-    @tags.pop(tag)
     $.ajax
         url: "#{@location}/tags"
         dataType: 'JSON'
         data: {"tags": tag}
         type: 'DELETE'
-
+    @tags.pop(tag)
+    
 @selectedItems = ->
   (item.value for item in $("INPUT[type='checkbox']:checked"))
 

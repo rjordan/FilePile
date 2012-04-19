@@ -40,7 +40,7 @@ gem 'rabl'
 
 group :test, :development do
   gem 'rspec-rails'
-  gem 'mocha_rails'
+  gem 'konacha'
 end
 
 group :test do
