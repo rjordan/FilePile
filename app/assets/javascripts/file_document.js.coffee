@@ -6,23 +6,23 @@ class FileDocument
     @tags(file.tags)
     @file_id=file.file_id
     @file_size=file.file_size
-    @location = "/files/#{@file_id}"
+    @location = "/files/#{@id}"
   addTag: (tag) =>
-    if @tags.indexOf(tag)
-       return
-#    $.ajax
-#        url: "#{@location}/tags"
-#        dataType: 'JSON'
-#        data: {"tags": tag}
-#        type: 'POST'
+    return @tags().length if $.inArray(tag, @tags())!=-1
+    $.ajax
+      url: "#{@location}/tags"
+      dataType: 'JSON'
+      data: {"tags": tag}
+      type: 'POST'
     @tags.push(tag)
   removeTag: (tag) =>
- #   $.ajax
- #       url: "#{@location}/tags"
- #       dataType: 'JSON'
- #       data: {"tags": tag}
- #       type: 'DELETE'
-    @tags.pop(tag)
+    return @tags().length if not $.inArray(tag, @tags())
+    $.ajax
+      url: "#{@location}/tags"
+      dataType: 'JSON'
+      data: {"tags": tag}
+      type: 'DELETE'
+    @tags.remove(tag)
 
 root = exports ? window  
 root.FileDocument = FileDocument

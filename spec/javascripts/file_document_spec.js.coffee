@@ -1,9 +1,16 @@
+//= require jquery
+//= require jquery.mockjax
 //= require knockout-2.0.0
 
 //= require file_document
 
 describe 'FileDocument', ->
   testData = { _id: 1, file_name: 'test.jpg', file_id: 2, file_size: 256, tags: ['tag1','tag2'] }
+
+  $.mockjax
+    url: '/files/1/tags'
+    responseTime: 500
+    responseText: 'Ok'
 
   describe 'when created from JSON', ->
     doc = new FileDocument(testData)
