@@ -38,6 +38,10 @@ gem 'bson_ext'
 gem 'rack-gridfs', :require=>'rack/gridfs'
 gem 'rabl'
 
+group :development do
+  gem 'thin'
+end
+
 group :test, :development do
   gem 'rspec-rails'
   gem 'konacha'
