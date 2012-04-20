@@ -1,9 +1,11 @@
+//= require knockout-2.0.0
+
 //= require file_document
 
 describe 'FileDocument', ->
   testData = { _id: 1, file_name: 'test.jpg', file_id: 2, file_size: 256, tags: ['tag1','tag2'] }
 
-  describe 'A new FileDocument', ->
+  describe 'when created from JSON', ->
     doc = new FileDocument(testData)
     it 'should be createable', ->
       doc.should.exist
@@ -21,4 +23,24 @@ describe 'FileDocument', ->
       doc.tags().length.should.equal(2)
       doc.tags().should.include('tag1')
       doc.tags().should.include('tag2')
+
+  it 'should accept new tags', ->
+    doc = new FileDocument(testData)
+    doc.tags().should.not.include('tag3')
+    doc.addTag 'tag3'
+    doc.tags().should.include('tag3')
+
+  it 'should ignore duplicate tags', ->
+    doc = new FileDocument(testData)
+    doc.tags().length.should.equal(2)
+    doc.addTag 'tag2'
+    doc.tags().length.should.equal(2)
+
+  it 'should be able to remove existing tags', ->
+    doc = new FileDocument(testData)
+    doc.tags().should.include('tag2')
+    doc.removeTag 'tag2'
+    doc.tags().should.not.include('tag2')
+    
+
 
