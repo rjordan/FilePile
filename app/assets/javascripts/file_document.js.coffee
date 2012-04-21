@@ -8,7 +8,7 @@ class FileDocument
     @file_size=file.file_size
     @location = "/files/#{@id}"
   addTag: (tag) =>
-    return @tags().length if $.inArray(tag, @tags())!=-1
+    return @tags().length if contains(tag, @tags())
     $.ajax
       url: "#{@location}/tags"
       dataType: 'JSON'
@@ -16,13 +16,19 @@ class FileDocument
       type: 'POST'
     @tags.push(tag)
   removeTag: (tag) =>
-    return @tags().length if not $.inArray(tag, @tags())
+    return @tags().length if not contains(tag, @tags()) 
     $.ajax
       url: "#{@location}/tags"
       dataType: 'JSON'
       data: {"tags": tag}
       type: 'DELETE'
     @tags.remove(tag)
+
+@contains = (elem, array) ->
+  if $.inArray(elem, array) > -1 
+    true
+  else
+    false 
 
 root = exports ? window  
 root.FileDocument = FileDocument
