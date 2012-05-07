@@ -29,6 +29,12 @@ class FilesController < ApplicationController
     redirect_to files_path(:tags=>selected_tags)
   end
 
+  def update
+    @file = FileDocument.find(params['id'])
+    @file.update_attributes(params)
+    respond_with @file
+  end
+
   private
 
   def selected_tags

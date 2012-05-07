@@ -1,51 +1,39 @@
-ko.extenders.selectedTagsChange = (target) ->
-  target.subscribe (newvalue) ->
-    fileList.updateList()
-  target
-
-class FilesList
-  files: ko.observableArray([])
-  tags: ko.observableArray([])
-  selectedTags: ko.observableArray([]).extend({selectedTagsChange: 1})
-  @resource_url: "/files"
-  updateList: =>
-    $.ajax
-      url: @resource_url,
-      dataType: 'JSON'
-      data: {"tags": @selectedTags}
-      success: (data) =>
-        @files([]) #if page=1
-        @tags([])
-        for file in data
-          @files.push( new FileDocument(file) )
-          for tag in file.tags
-            @tags.push(tag) unless tag in @tags()
-  find: (id) =>
-    $.grep(@files(), (item) -> item.id==id)[0]
-  delete: (id) =>
-    file = @find(id)
-    $.ajax
-        url: "#{@resource_url}/#{id}"
-        type: 'DELETE'
-    @files(@files.remove(file))
 
 @selectedItems = ->
   (item.value for item in $("INPUT[type='checkbox']:checked"))
 
-@formatFileSize = (bytes) ->
-  return '' if (typeof bytes != 'number')
-  return (bytes / 1000000000).toFixed(2) + ' GB' if (bytes >= 1000000000)
-  return (bytes / 1000000).toFixed(2) + ' MB' if (bytes >= 1000000)
-  return (bytes / 1000).toFixed(2) + ' KB' if (bytes >= 1000)
-  return bytes.toFixed(2) + 'B'
+fileTemplate = """
+               <tr data-id="{{id}}">
+                 <td class="select">
+                   <input type="checkbox" name="file_ids[]" value="{{id}}"></input>
+                 </td>
+                 <td>
+                   <a href="/gridfs/{{file_id}}/{{file_name}}">{{file_name}}</a>
+                 </td>
+                 <td>
+                   {{#tags}}
+                    <span class="label label-info">{{.}}</span>
+                   {{/tags}}
+                 </td>
+                 <td class="align-right span2">
+                   {{formatFileSize}}
+                 </td>
+               </tr>
+               """
 
-
-@fileList = new FilesList()
+delay = ->
+  true
 
 jQuery ->
-  ko.applyBindings(fileList)
+  FileDoc.fetch() 
+  
+  FileDoc.bind 'refresh', ->
+    FileDoc.each (d) -> 
+      $('#fileList').append(Mustache.render(fileTemplate, d))
+  
+  #ko.applyBindings(FileList)
   #$('body').trigger 'refresh'
-  fileList.updateList()
+  #fileList.updateList()
 
   $('#clear-tags').click (event) ->
     event.preventDefault()

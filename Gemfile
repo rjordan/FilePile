@@ -55,3 +55,6 @@ group :test do
   gem 'capybara'
   #gem 'database_cleaner'
 end
+
+gem 'spine-rails'
+gem 'smt_rails'

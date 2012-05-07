@@ -1,8 +1,7 @@
-//= require jquery
-//= require jquery.mockjax
-//= require knockout-2.0.0
-
-//= require file_document
+#= require jquery
+#= require jquery.mockjax
+#= require knockout-2.0.0
+#= require file_document
 
 describe 'FileDocument', ->
   $.mockjax

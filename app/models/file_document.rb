@@ -3,7 +3,9 @@ require 'digest/sha2'
 class FileDocument
   include Mongoid::Document
   include Mongoid::Grid
-  
+
+  attr_accessible :tags
+
   field :fingerprint, :type=>String #sha_512
   field :tags, :type=>Array
   field :description

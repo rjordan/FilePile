@@ -18,5 +18,12 @@
 //= require knockout-2.0.0.js
 //= require jquery.iframe-transport
 //= require jquery.fileupload
+//= require spine
+//= require spine/ajax
+//= require spine/relation
+//= require mustache
+//= require_tree ../../templates
 //= require_tree .
+
+
 

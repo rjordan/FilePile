@@ -3,6 +3,8 @@ class FileDocument
   constructor: (file) ->
     @id = file._id
     @file_name = file.file_name
+    #for tag in file.tags
+    #  @tags.push tag
     @tags(file.tags)
     @file_id=file.file_id
     @file_size=file.file_size
@@ -30,6 +32,5 @@ class FileDocument
   else
     false 
 
-root = exports ? window  
-root.FileDocument = FileDocument
+window.FileDocument = FileDocument
 
