@@ -4,6 +4,10 @@ Array.prototype.unique = () ->
       a.push(e) if a.indexOf(e)==-1
     return a
 
+Array.prototype.contains = (item) ->
+  @.indexOf(item) != -1
+
+
 Array.prototype.remove = (v) ->
    $.grep @,(e)-> e!=v
 
@@ -22,11 +26,8 @@ class FileDoc extends Spine.Model
   @extend Spine.Model.Ajax
   @url: "/files" 
 
-  hasTag: (tag) =>
-    @tags.indexOf(tag) != -1
-
   addTag: (tag) =>
-    @tags.push(tag) unless @.hasTag(tag)
+    @tags = @tags.concat(tag) unless @tags.contains(tag)
 
   removeTag: (tag) =>
     @tags = @tags.remove(tag)

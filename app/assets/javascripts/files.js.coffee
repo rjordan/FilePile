@@ -3,14 +3,14 @@
   (item.value for item in $("INPUT[type='checkbox']:checked"))
 
 fileTemplate = """
-               <tr data-id="{{id}}">
+               <tr data-id="{{id}}" class="filerow">
                  <td class="select">
                    <input type="checkbox" name="file_ids[]" value="{{id}}"></input>
                  </td>
                  <td>
                    <a href="/gridfs/{{file_id}}/{{file_name}}">{{file_name}}</a>
                  </td>
-                 <td>
+                 <td class="tags">
                    {{#tags}}
                     <span class="label label-info">{{.}}</span>
                    {{/tags}}
@@ -21,33 +21,43 @@ fileTemplate = """
                </tr>
                """
 
-delay = ->
-  true
+selectedTagTemplate = '<li><a href="/files/{{id}}" class="btn btn-primary">{{.}}<i class="icon-remove icon-white"></i></a></li>'
 
 jQuery ->
-  FileDoc.fetch() 
-  
   FileDoc.bind 'refresh', ->
-    FileDoc.each (d) -> 
+    FileDoc.each (d) ->
       $('#fileList').append(Mustache.render(fileTemplate, d))
-  
-  #ko.applyBindings(FileList)
-  #$('body').trigger 'refresh'
-  #fileList.updateList()
+
+  FileDoc.fetch()
+
+  window.renderSelectedTags = ->
+    $('#selected-tags .breadcrumb').html('')
+    for tag in window.selectedTags
+      $('#selected-tags .breadcrumb').append(Mustache.render(selectedTagTemplate, tag))
+
 
   $('#clear-tags').click (event) ->
     event.preventDefault()
-    fileList.selectedTags([])
-
-$('#available-tags a').live 'click', (event) ->
-#    event.preventDefault()
-    fileList.selectedTags.push($(this).text())
-#    fileList.tags.pop($(this).text())
-
+    window.selectedTags = []
+    renderSelectedTags()
 
   $('#selected-tags a').live 'click', (event) ->
     event.preventDefault()
-    fileList.selectedTags.remove($(this).text())
+    window.selectedTags = window.selectedTags.remove($(this).text())
+    renderSelectedTags()
+
+  $('#available-tags a').live 'click', (event) ->
+  #    event.preventDefault()
+      window.selectedTags.push($(this).text())
+  #    fileList.tags.pop($(this).text())
+      renderSelectedTags()
+
+  $('.filerow .tags span').live 'click', (event) ->
+    window.selectedTags ?= []
+    window.selectedTags = window.selectedTags.concat($(this).text()) unless window.selectedTags.contains($(this).text())
+    renderSelectedTags()
+  #    fileList.tags.pop($(this).text())
+
 
   $('#select-all').click ->
     $("INPUT[type='checkbox']").attr('checked', $(this).is(':checked'));
