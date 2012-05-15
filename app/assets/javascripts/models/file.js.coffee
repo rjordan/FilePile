@@ -22,8 +22,11 @@ class FileDoc extends Spine.Model
   @extend Spine.Model.Ajax
   @url: "/files" 
 
+  hasTag: (tag) =>
+    @tags.indexOf(tag) != -1
+
   addTag: (tag) =>
-    @tags = @tags.push(tag) if @tags.indexOf(tag)==-1
+    @tags.push(tag) unless @.hasTag(tag)
 
   removeTag: (tag) =>
     @tags = @tags.remove(tag)

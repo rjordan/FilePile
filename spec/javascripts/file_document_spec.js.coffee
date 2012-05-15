@@ -13,41 +13,41 @@ describe 'FileDocument', ->
     testData = { _id: 1, file_name: 'test.jpg', file_id: 2, file_size: 256, tags: ['tag1','tag2'] }
     doc = new FileDocument(testData)
     it 'should be createable', ->
-      doc.should.exist
+      expect(doc).toNotBe(null)
     it 'should have a valid id', ->
-      doc.id.should.equal(1)
+      expect(doc.id).toEqual(1)
     it 'should have a valid name', ->
-      doc.file_name.should.equal('test.jpg')
+      expect(doc.file_name).toEqual('test.jpg')
     it 'should have a valid file_id', ->
-      doc.file_id.should.equal(2)
+      expect(doc.file_id).toEqual(2)
     it 'should have a valid file_size', ->
-      doc.file_size.should.equal(256)
+      expect(doc.file_size).toEqual(256)
     it 'should have a valid location', ->
-      doc.location.should.equal('/files/1')
+      expect(doc.location).toEqual('/files/1')
     it 'should have a valid tags', ->
-      #doc.tags().length.should.equal(2)
-      doc.tags().should.equal(['tag1', 'tag2'])
+      #expect(doc.tags().length).toEqual(2)
+      expect(doc.tags()).toEqual(['tag1', 'tag2'])
 
   it 'should accept new tags', ->
     testData = { _id: 1, file_name: 'test.jpg', file_id: 2, file_size: 256, tags: ['tag1','tag2'] }
     doc = new FileDocument(testData)
-    doc.tags().should.not.include('tag3')
+    expect(doc.tags()).toNotContain('tag3')
     doc.addTag 'tag3'
-    doc.tags().should.include('tag3')
+    expect(doc.tags()).toContain('tag3')
 
   it 'should ignore duplicate tags', ->
     testData = { _id: 1, file_name: 'test.jpg', file_id: 2, file_size: 256, tags: ['tag1','tag2'] }
     doc = new FileDocument(testData)
-    doc.tags().length.should.equal(2)
+    expect(doc.tags().length).toEqual(2)
     doc.addTag 'tag2'
-    doc.tags().length.should.equal(2)
+    expect(doc.tags().length).toEqual(2)
 
   it 'should be able to remove existing tags', ->
     testData = { _id: 1, file_name: 'test.jpg', file_id: 2, file_size: 256, tags: ['tag1','tag2'] }
     doc = new FileDocument(testData)
-    doc.tags().should.include('tag2')
+    expect(doc.tags()).toContain('tag2')
     doc.removeTag 'tag2'
-    doc.tags().should.not.include('tag2')
+    expect(doc.tags()).toNotContain('tag2')
     
 
 

@@ -44,7 +44,7 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
-  gem 'konacha'
+  gem 'jasminerice'
 end
 
 group :test do
