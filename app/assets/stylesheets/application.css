@@ -10,7 +10,7 @@
  *
  *= require_self
  *= require jquery.fileupload-ui
- *= require bootstrap
+ *= require bootstrap.min
  *= require_tree .
 */
 

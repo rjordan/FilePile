@@ -31,21 +31,21 @@ describe 'FileDoc', ->
   it 'should accept new tags', ->
     test.tags = ['tag1', 'tag2']
     test.tags.should.not.include('tag3')
-    test.tags.push('tag3')
+    test.addTag('tag3')
     test.isValid().should.be.true
     test.tags.should.include('tag3')
 
   it 'should ignore duplicate tags', ->
     test.tags = ['tag1','tag2']
     test.tags.length.should.equal(2)
-    test.tags.push('tag2')
+    test.addTag('tag2')
     test.isValid().should.be.true
     test.tags.length.should.equal(2)
 
   it 'should be able to remove existing tags', ->
     test.tags = ['tag1','tag2']
     test.tags.should.include('tag2')
-    test.tags.remove('tag2')
+    test.removeTag('tag2')
     test.isValid().should.be.true
     test.tags.should.not.include('tag2')
 

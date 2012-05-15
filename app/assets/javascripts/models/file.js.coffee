@@ -5,25 +5,28 @@ Array.prototype.unique = () ->
     return a
 
 Array.prototype.remove = (v) ->
-  $.grep @,(e)-> e!=v
+   $.grep @,(e)-> e!=v
 
-class Tag extends Spine.Model
-  @configure 'Tag', 'name'
-  @extend Spine.Model.Ajax
+#formatFileSize: (bytes) =>
+#  return '' if (typeof bytes != 'number')
+#  return (bytes / 1000000000).toFixed(2) + ' GB' if (bytes >= 1000000000)
+#  return (bytes / 1000000).toFixed(2) + ' MB' if (bytes >= 1000000)
+#  return (bytes / 1000).toFixed(2) + ' KB' if (bytes >= 1000)
+#  return bytes.toFixed(0) + ' B'
 
-window.Tag = Tag
+#window.formatFileSize = formatFileSize
 
 class FileDoc extends Spine.Model
-  @configure "File", "file_name", "file_id", "file_size",
+  @configure "FileDoc", "file_name", "file_id", "file_size",
              "fingerprint", "description", "file_type", "tags"
   @extend Spine.Model.Ajax
   @url: "/files" 
-  #@manyToMany Tag
-  #@hasMany 'tags', 'Tag'
 
-  validate: =>
-    @tags = @tags.unique()
-    return false
+  addTag: (tag) =>
+    @tags = @tags.push(tag) if @tags.indexOf(tag)==-1
+
+  removeTag: (tag) =>
+    @tags = @tags.remove(tag)
 
   formatFileSize: () =>
     bytes = @file_size
@@ -32,5 +35,5 @@ class FileDoc extends Spine.Model
     return (bytes / 1000000).toFixed(2) + ' MB' if (bytes >= 1000000)
     return (bytes / 1000).toFixed(2) + ' KB' if (bytes >= 1000)
     return bytes.toFixed(0) + ' B'
-    
+
 window.FileDoc = FileDoc
