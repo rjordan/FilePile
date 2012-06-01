@@ -21,7 +21,7 @@ fileTemplate = """
                </tr>
                """
 
-selectedTagTemplate = '<li><a href="/files/{{id}}" class="btn btn-primary">{{.}}<i class="icon-remove icon-white"></i></a></li>'
+selectedTagTemplate = '<li class="tag"><a href="/files/{{id}}" class="btn btn-primary">{{.}}<i class="icon-remove icon-white"></i></a></li> '
 
 jQuery ->
   FileDoc.bind 'refresh', ->
@@ -31,9 +31,9 @@ jQuery ->
   FileDoc.fetch()
 
   window.renderSelectedTags = ->
-    $('#selected-tags .breadcrumb').html('')
+    $('ul#st-tags > li.tag').remove()
     for tag in window.selectedTags
-      $('#selected-tags .breadcrumb').append(Mustache.render(selectedTagTemplate, tag))
+      $('#st-tags').append(Mustache.render(selectedTagTemplate, tag))
 
 
   $('#clear-tags').click (event) ->

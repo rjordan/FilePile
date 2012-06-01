@@ -1,12 +1,11 @@
 Array.prototype.unique = () ->
-    a = []
-    for e in @
-      a.push(e) if a.indexOf(e)==-1
-    return a
+  a = []
+  for e in @
+    a.push(e) if a.indexOf(e)==-1
+  return a
 
 Array.prototype.contains = (item) ->
   @.indexOf(item) != -1
-
 
 Array.prototype.remove = (v) ->
    $.grep @,(e)-> e!=v
