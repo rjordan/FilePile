@@ -1,47 +1,23 @@
-<script type="text/html" id="tag-template">
-  <li><a href="/files?tags[]=${$data}" class="btn btn-primary">${$data}</a></li>
-</script>
-
-<!-- files_path(:tags=>@selected_tags-[tag]) -->
-<script type="text/html" id="selectedtag-template">
-  <li><a href="/files/${id}" class="btn btn-primary">${$data}<i class="icon-remove icon-white"></i></a></li>
-</script>
-
-<h2>Active Tags</h2>
-<div id="selected-tags">
-  <ul id="st-tags" class="breadcrumb">
-    <li><%= link_to 'Clear', files_path(), :class=>"btn btn-danger", :id=>"clear-tags" %></li>
-  </ul>
-</div>
-
-<!--
-<h2>Available Tags</h2>
-<div id="available-tags">
-  <%#  render 'available_tags' %>
-  <ul class="breadcrumb" data-bind="template: { name: 'tag-template', foreach: tags }">
-  </ul>
-</div>
--->
-
 <h2>Files</h2>
+
+<div id="tags" class="well">
+</div>
+
 <%= form_tag files_path do %>
-<div>
+<div class="well">
   <span class="btn btn-success fileinput-button">
     <i class="icon-plus icon-white"></i>
     <span>Add files...</span>
     <input id="fileupload" type="file" name="document" multiple>
   </span>
-  <a class="btn btn-danger" id="btn-delete"><i class="icon-ban-circle icon-white"></i> <span>Delete</span></a>
   <input type="text" id="new_tags"></input> <a class="btn btn-success" id="btn-add-tag">Add Tags</a>
+  <a class="btn btn-danger" id="btn-delete"><i class="icon-ban-circle icon-white"></i> <span>Delete</span></a>
 </div>
 <% end %>
 
 <table class="table table-striped">
   <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
 </table>
-
-
-<br/>
 
 <table class="table table-bordered table-striped" id="file-list">
   <thead>

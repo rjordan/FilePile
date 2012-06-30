@@ -23,6 +23,7 @@
 //= require spine/relation
 //= require mustache
 //= require_tree ../../templates
+//= require extensions
 //= require_tree .
 
 
