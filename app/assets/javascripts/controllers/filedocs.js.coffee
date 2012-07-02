@@ -12,20 +12,24 @@
      {{/tags}}
    </td>
    <td class="align-right span2">
-     {{formatFileSize}}
+     {{formattedFileSize}}
    </td>
   </tr>
   """
 
 class @FileDocs extends Spine.Controller
-  render: ->
+  @render: ->
+    $('#fileList').empty()
     FileDoc.each (d) ->
       $('#fileList').append(Mustache.render(fileTemplate, d))
 
-  helper:
-    formatFileSize: (bytes) =>
-      return '' if (typeof bytes != 'number')
-      return (bytes / 1000000000).toFixed(2) + ' GB' if (bytes >= 1000000000)
-      return (bytes / 1000000).toFixed(2) + ' MB' if (bytes >= 1000000)
-      return (bytes / 1000).toFixed(2) + ' KB' if (bytes >= 1000)
-      return bytes.toFixed(0) + ' B'
+  @buildTagsModel: =>
+    for t in FileDoc.allTags()
+      Tags.add(t)
+
+  @renderFilteredFiles: =>
+    FileDocs.buildTagsModel()
+    $('#fileList').empty()
+    for file in FileDoc.filteredFiles()
+      $('#fileList').append(Mustache.render(fileTemplate, file))
+

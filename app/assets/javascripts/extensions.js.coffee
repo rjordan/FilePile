@@ -10,6 +10,9 @@ Array.prototype.remove = (v) =>
 #Array.prototype.contains = (item) ->
 #  @.indexOf(item) != -1
 
+Array.prototype.compact = () ->
+    (item for item in @ when item isnt null)
+
 Array.prototype.flatten = () ->
     flattened = []
     for element in @

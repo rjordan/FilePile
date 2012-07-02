@@ -1,6 +1,6 @@
-class @Tag extends Spine.Model
-  @configure "Tag", "value", "selected"
+class @Tag
+  @id
+  @selected
 
-  constructor: (@value) ->
-    @selected = false
-
+  constructor: (@id) ->
+    @selected=false

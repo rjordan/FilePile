@@ -18,7 +18,9 @@ class FilesController < ApplicationController
 
   def destroy
     FileDocument.find(params['id']).delete
-    redirect_to files_path(:tags=>selected_tags)
+    respond_to do |format|
+      format.html { redirect_to files_path(:tags=>selected_tags) }
+    end
   end
   
   def create

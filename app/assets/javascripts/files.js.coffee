@@ -1,30 +1,22 @@
-tagTemplate = '<span class="badge {{#selected}}badge-success{{/selected}}">{{.}}</span> '
+@renderAll = ->
+  FileDocs.buildTagsModel()
+  Tags.render()
+  FileDocs.renderFilteredFiles()
+
 
 $('#tags span').live 'click', ->
-  $(this).toggleClass 'badge-success'
-  #FileDoc.trigger 'change'
-
-@activeTags = ->
-  $(tag).text() for tag in $('#tags span.badge-success')
+  Tags.toggleSelected($(this).text())
+  renderAll()
 
 @selectedItems = ->
   (item.value for item in $("INPUT[type='checkbox']:checked"))
 
 jQuery ->
   FileDoc.bind 'change', ->
-    #filter FileDocs by tags
-    FileDoc.each (d) ->
-      $('#fileList').append(Mustache.render(fileTemplate, d))
-
+    renderAll()
 
   FileDoc.bind 'refresh', ->
-    #selected = activeTags() #remember
-    $('#tags').html('')
-    for tag in FileDoc.allTags()
-      $('#tags').append(Mustache.render(tagTemplate, tag))
-
-    FileDoc.each (d) ->
-      $('#fileList').append(Mustache.render(fileTemplate, d))
+    renderAll()
 
   FileDoc.fetch()
 
@@ -38,22 +30,24 @@ jQuery ->
     for file in files
       for tag in new_tag_array
         file.addTag(tag)
+        file.save()
     $('#new_tags').val('')
 
   $('#btn-delete').click ->
       list = selectedItems()
-      alert list
-      #confirm?
+      alert list #confirm?
       for item in list
-        fileList.delete(item)
+        FileDoc.destroy(item)
 
   $('#fileupload').fileupload
     dataType: 'json'
     url: '/files'
-    formData: {"tags": []}
+    formData: { "tags":Tags.selected() }
     done: (e, data) ->
+      renderAll()
       $.each data.result, (index, file) ->
         alert "Index #{index}"
-    progress: (e, data) ->
-      progress = parseInt(data.loaded / data.total * 100, 10)
-      alert progress
+
+#    progress: (e, data) ->
+#      progress = parseInt(data.loaded / data.total * 100, 10)
+#      alert progress
