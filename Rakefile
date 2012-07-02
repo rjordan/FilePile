@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Filepile2::Application.load_tasks
+Filepile::Application.load_tasks
