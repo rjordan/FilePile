@@ -3,8 +3,8 @@
 I got tired of always digging through directories to and then through files
 to find the file I was searching for.  FilePile attempts to solve this problem
 by storing files in a MongoDB backend, and allowing you to add an arbitrary
-number of tags to each file. Then fhen when you go to find a file, you can
-filter the files list selecting tags to narrow your search.
+number of tags to each file. Then when you go to find a file, you can
+filter the file list by selecting tags to narrow your search.
 
 
 ## Bugs:
