@@ -1,3 +1,5 @@
+#Starter idea for using fusefs to tie into FilePile
+
 require 'rubygems'
 require 'fusefs'
 
