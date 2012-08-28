@@ -4,10 +4,8 @@ class FilesController < ApplicationController
   def index
     #thumbnails 260x180 looks good
     @selected_tags = params["tags"].blank? ? [] : params["tags"]
-    #@selected_tags = selected_tags
     @files = FileDocument.asc(:file_name)
     @files = @files.all_in(:tags=>@selected_tags) unless @selected_tags.empty?
-    @tags = @files.collect { |d| d.tags }.flatten.uniq.compact.sort-@selected_tags
     respond_with @files
   end
 
@@ -20,15 +18,18 @@ class FilesController < ApplicationController
     FileDocument.find(params['id']).delete
     respond_to do |format|
       format.html { redirect_to files_path(:tags=>selected_tags) }
+      format.json { render :nothing=>true, :status=>200  }
     end
   end
   
   def create
     document = params['document']
-    f = FileDocument.create(:tags=>selected_tags)
+    tags = params['tags'].include?(',') ? params['tags'].split(',') : params['tags']
+    f = FileDocument.create(:tags=>tags)
     f.set_data document
     f.save
-    redirect_to files_path(:tags=>selected_tags)
+    #Don't redirect on JS send Created with info instead!
+    #redirect_to files_path(:tags=>selected_tags)
   end
 
   def update

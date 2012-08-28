@@ -28,3 +28,6 @@
 
 
 
+//Find a way to serve all from mustache up from a cdn or asset host
+//maybe something like
+// require_cdn jquery
