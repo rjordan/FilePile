@@ -2,7 +2,7 @@ class @FileDoc extends Spine.Model
   @configure "FileDoc", "file_name", "file_id", "file_size",
              "fingerprint", "description", "file_type", "tags"
   @extend Spine.Model.Ajax
-  @url: "/files" 
+  @url: "/files"
 
   @filteredFiles: ->
     docs = @.all()
@@ -20,12 +20,12 @@ class @FileDoc extends Spine.Model
     @tags = @tags.remove(tag)
 
   formattedFileSize: =>
-      bytes = @file_size
-      return '' if (typeof bytes != 'number')
-      return (bytes / 1000000000).toFixed(2) + ' GB' if (bytes >= 1000000000)
-      return (bytes / 1000000).toFixed(2) + ' MB' if (bytes >= 1000000)
-      return (bytes / 1000).toFixed(2) + ' KB' if (bytes >= 1000)
-      return bytes.toFixed(0) + ' B'
+    bytes = @file_size
+    return '' if (typeof bytes != 'number')
+    return (bytes / 1000000000).toFixed(2) + ' GB' if (bytes >= 1000000000)
+    return (bytes / 1000000).toFixed(2) + ' MB' if (bytes >= 1000000)
+    return (bytes / 1000).toFixed(2) + ' KB' if (bytes >= 1000)
+    return bytes.toFixed(0) + ' B'
 
 
 #window.FileDoc = FileDoc

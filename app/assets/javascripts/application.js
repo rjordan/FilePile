@@ -16,8 +16,7 @@
 //= require bootstrap.min
 //= require jquery.tmpl.min
 //= require knockout-2.0.0.js
-//= require jquery.iframe-transport
-//= require jquery.fileupload
+//= require jquery-fileupload/basic
 //= require spine
 //= require spine/ajax
 //= require spine/relation

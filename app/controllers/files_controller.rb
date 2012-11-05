@@ -24,10 +24,10 @@ class FilesController < ApplicationController
   
   def create
     document = params['document']
-    tags = params['tags'].include?(',') ? params['tags'].split(',') : params['tags']
-    f = FileDocument.create(:tags=>tags)
-    f.set_data document
-    f.save
+    tags = params['tags'].include?(',') ? params['tags'].split(',') : params['tags'].to_a
+    @file = FileDocument.create(:tags=>tags)
+    @file.set_data document
+    @file.save
     #Don't redirect on JS send Created with info instead!
     respond_to do |format|
       format.html { redirect_to files_path(:tags=>selected_tags) }
