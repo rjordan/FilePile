@@ -28,7 +28,7 @@ gem 'jquery-rails'
 
 gem 'mongoid'
 gem 'mongoid_grid'
-#gem 'bson_ext'
+gem 'bson_ext'
 gem 'rack-gridfs', :require=>'rack/gridfs'
 gem 'rabl'
 gem 'jquery-fileupload-rails'
