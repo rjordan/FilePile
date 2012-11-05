@@ -29,7 +29,9 @@ class FilesController < ApplicationController
     f.set_data document
     f.save
     #Don't redirect on JS send Created with info instead!
-    #redirect_to files_path(:tags=>selected_tags)
+    respond_to do |format|
+      format.html { redirect_to files_path(:tags=>selected_tags) }
+    end
   end
 
   def update
