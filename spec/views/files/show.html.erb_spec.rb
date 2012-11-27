@@ -19,13 +19,6 @@ describe 'files/show.html.erb' do
     page.should have_selector('div#selected-tags ul.breadcrumb li', :text=>'tag1')
   end
 
-  it "should have a available-tags div" do
-    page.should have_selector('div#available-tags')
-    page.should have_selector('div#available-tags ul.breadcrumb')
-    page.should have_selector('div#available-tags ul.breadcrumb li', :text=>'tag2')
-    page.should_not have_selector('div#available-tags ul.breadcrumb li', :text=>'tag1')
-  end
-
   it "should have a back button" do
     page.should have_link('Back', :href=>files_path)
   end

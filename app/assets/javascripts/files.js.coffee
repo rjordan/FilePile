@@ -32,7 +32,7 @@ jQuery ->
       list = selectedItems()
       if confirm("Really delete #{list}")
         for item in list
-          FileDoc.destroy(item)
+          window.fileDocs.delete(item)
 
   window.uploadTemplate = """
     <div class="upload">
@@ -42,7 +42,8 @@ jQuery ->
   """
 
   $('#fileupload').bind 'fileuploadsubmit', (e, data) ->
-    data.formData = { tags: Tags.selected() }
+    data.dataType = 'json'
+    data.formData = { tags: Tags.selected() }      #TODO This is wrong but I can't seem to fix it
 
   $('#fileupload').fileupload
     dataType: 'json'
@@ -55,15 +56,7 @@ jQuery ->
       if data.context
         data.context.remove()
         #alert data.files[0].name
-        newdoc = new FileDoc()
-        newdoc.file_name = data.files[0].name
-        newdoc.file_id = data.files[0].id
-        newdoc.file_size = data.files[0].file_size
-        newdoc.fingerprint = data.files[0].fingerprint
-        newdoc.description = data.files[0].description
-        newdoc.file_type = data.files[0].file_type
-        newdoc.tags = data.files[0].tags
-        fileDocs.add(newdoc)
+        window.fileDocs.fromUpload data.result
     progress: (e, data) ->
       if data.context
         progress = parseInt(data.loaded / data.total * 100, 10)

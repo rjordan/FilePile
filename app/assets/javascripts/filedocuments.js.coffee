@@ -23,35 +23,6 @@
   cancelable: true
 }
 
-class FileDocument
-  constructor: (data) ->
-    @id = data.id
-    @file_name = data.file_name
-    @fingerprint = data.fingerprint
-    @file_size = data.file_size
-    @tags = data.tags
-    @location = "/files/" + @id
-
-  delete: =>
-    $.ajax
-      type: "DELETE"
-      dataType: 'json'
-      url: @location
-
-  #  addTag: (tag) =>
-  #    @tags = @tags.concat(tag) unless tag in @tags
-
-  #  removeTag: (tag) =>
-  #    @tags = @tags.remove(tag)
-
-  formattedFileSize: =>
-    bytes = @file_size
-    return '' if (typeof bytes != 'number')
-    return (bytes / 1000000000).toFixed(2) + ' GB' if (bytes >= 1000000000)
-    return (bytes / 1000000).toFixed(2) + ' MB' if (bytes >= 1000000)
-    return (bytes / 1000).toFixed(2) + ' KB' if (bytes >= 1000)
-    return bytes.toFixed(0) + ' B'
-
 class @FileDocuments
   constructor: () ->
     @files = []
@@ -73,6 +44,17 @@ class @FileDocuments
   add: (doc) =>
     @files.push(doc)
     document.dispatchEvent(changeEvent)
+
+  fromUpload: (data) =>
+    doc = new FileDocument
+      id: data.id
+      file_name: data.name
+      file_size: data.file_size
+      fingerprint: data.fingerprint
+      tags: data.tags
+      #description: data.description
+      #file_type: data.file_type
+    @add(doc)
 
   addTagFilter: (tag) =>
     @filterTags.push(tag)
@@ -100,19 +82,19 @@ class @FileDocuments
 
 ############ END NEW METHOD #############
 
-class @FileDocs extends Spine.Controller
-  @render: ->
-    $('#fileList').empty()
-    FileDoc.each (d) ->
-      $('#fileList').append(Mustache.render(fileTemplate, d))
-
-  @buildTagsModel: =>
-    for t in FileDoc.allTags()
-      Tags.add(t)
-
-  @renderFilteredFiles: =>
-    FileDocs.buildTagsModel()
-    $('#fileList').empty()
-    for file in FileDoc.filteredFiles()
-      $('#fileList').append(Mustache.render(fileTemplate, file))
-
+#class @FileDocs extends Spine.Controller
+#  @render: ->
+#    $('#fileList').empty()
+#    FileDoc.each (d) ->
+#      $('#fileList').append(Mustache.render(fileTemplate, d))
+#
+#  @buildTagsModel: =>
+#    for t in FileDoc.allTags()
+#      Tags.add(t)
+#
+#  @renderFilteredFiles: =>
+#    FileDocs.buildTagsModel()
+#    $('#fileList').empty()
+#    for file in FileDoc.filteredFiles()
+#      $('#fileList').append(Mustache.render(fileTemplate, file))
+#

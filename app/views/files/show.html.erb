@@ -4,30 +4,11 @@
   <ul class="breadcrumb">
     <% @file.tags.each do |tag| %>
       <li>
-        <%= bootstrap_button_link(tag, file_tag_path(@file,tag), :method=>:delete, :icon=>:remove, :primary=>true) %>
+        <%= tag %>
       </li>
     <% end %>
   </ul>
 </div>
-
-<div id="available-tags">
-  <ul class="breadcrumb">
-    <% (FileDocument.all_tags-@file.tags).each do |tag| %>
-      <li>
-        <%= bootstrap_button_link tag, file_tag_path(@file, tag), :method=>:put, :primary=>true %>
-      </li>
-    <% end %>
-   </ul>
-</div>
-
-<%= form_tag file_tags_path(@file), :class=>"form-search" do %>
-  <fieldset class="control-group">
-    <div class="controls">
-      <%= text_field_tag 'tags' %>
-      <%= submit_tag('Add Tags', :class=>"btn") %>
-    </div>
-  </fieldset>
-<% end %>
 
 <h2><%= @file.file_name %></h2>
 <p><strong>File Id:</strong> <%= @file.id %></p>

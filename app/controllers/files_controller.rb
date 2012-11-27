@@ -31,7 +31,7 @@ class FilesController < ApplicationController
     #Don't redirect on JS send Created with info instead!
     respond_to do |format|
       format.html { redirect_to files_path(:tags=>selected_tags) }
-      format.json { render :location=>url_for(@file), :status=>201 }
+      format.json { render :json=>@file, :location=>file_url(@file), :status=>201 }
     end
   end
 

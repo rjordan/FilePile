@@ -17,9 +17,6 @@
 //= require jquery.tmpl.min
 //= require knockout-2.0.0.js
 //= require jquery-fileupload/basic
-//= require spine
-//= require spine/ajax
-//= require spine/relation
 //= require mustache
 //= require_tree ../../templates
 //= require extensions
