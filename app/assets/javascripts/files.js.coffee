@@ -1,11 +1,11 @@
-@renderAll = ->
-  FileDocs.buildTagsModel()
-  Tags.render()
-  FileDocs.renderFilteredFiles()
+#@renderAll = ->
+#  FileDocs.buildTagsModel()
+#  Tags.render()
+#  FileDocs.renderFilteredFiles()
 
-$('#tags span').live 'click', ->
-  Tags.toggleSelected($(this).text())
-  renderAll()
+#$('#tags span').live 'click', ->
+#  Tags.toggleSelected($(this).text())
+#  renderAll()
 
 @selectedItems = ->
   (item.value for item in $("INPUT[type='checkbox']:checked"))
@@ -21,11 +21,11 @@ jQuery ->
   $('#btn-add-tag').click ->
     new_tags = $('#new_tags').val()
     new_tag_array = new_tags.split(',')
-    files = ( FileDoc.find(item) for item in selectedItems())
+    files = ( window.fileDocs.find(item) for item in selectedItems())
     for file in files
       for tag in new_tag_array
         file.addTag(tag)
-        file.save()
+      file.save()
     $('#new_tags').val('')
 
   $('#btn-delete').click ->
@@ -43,7 +43,7 @@ jQuery ->
 
   $('#fileupload').bind 'fileuploadsubmit', (e, data) ->
     data.dataType = 'json'
-    data.formData = { tags: Tags.selected() }      #TODO This is wrong but I can't seem to fix it
+    data.formData = { tags: window.fileDocs.filterTags }      #TODO This is wrong but I can't seem to fix it
 
   $('#fileupload').fileupload
     dataType: 'json'

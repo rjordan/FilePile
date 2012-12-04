@@ -43,6 +43,11 @@ end
 group :test, :development do
   gem 'rspec-rails'
   gem 'jasminerice'
+  gem 'guard-jasmine'
+  gem 'guard-rspec'
+  gem 'guard-spork'
+  gem 'phantomjs'
+  gem 'rb-inotify'
 end
 
 group :test do

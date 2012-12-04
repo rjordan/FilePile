@@ -1,8 +1,3 @@
-#= require jquery
-#= require jquery.mockjax
-#= require extensions
-#= require filedocument
-
 describe 'FileDocument', ->
   it 'should exist', ->
     expect(FileDocument).toBeDefined

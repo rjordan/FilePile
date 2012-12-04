@@ -35,6 +35,10 @@ class @FileDocuments
         @files.push(new FileDocument(file))
       document.dispatchEvent(changeEvent)
 
+  find: (id) =>
+    file = item for item in @files when item.id is id
+    file
+
   delete: (id) =>
     file = item for item in @files when item.id is id
     @files.remove(file)

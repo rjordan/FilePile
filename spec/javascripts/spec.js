@@ -1,4 +1,5 @@
-#=require_tree ./
+//=require application
+//=require_tree .
 
 testData = { id: 1, file_name: "test.jpg", file_id: 2, file_size: 256, tags: ["tag1","tag2"] }
 

@@ -15,11 +15,13 @@ class @FileDocument
 
   addTag: (tag) =>
     @tags = @tags.concat(tag) unless tag in @tags
-  #TODO send update to document
 
   removeTag: (tag) =>
     @tags = @tags.remove(tag)
-  #TODO send update to document
+
+  save: =>
+    console.log "Had this been an actual function, a save would have occurred."
+    #TODO send update to document
 
   formattedFileSize: =>
     bytes = @file_size
