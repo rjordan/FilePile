@@ -1,6 +1,7 @@
 class @FileDocument
   constructor: (data) ->
     @id = data.id
+    @file_id = data.file_id
     @file_name = data.file_name
     @fingerprint = data.fingerprint
     @file_size = data.file_size
@@ -20,8 +21,13 @@ class @FileDocument
     @tags = @tags.remove(tag)
 
   save: =>
-    console.log "Had this been an actual function, a save would have occurred."
+#    console.log "Had this been an actual function, a save would have occurred."
     #TODO send update to document
+    $.ajax
+      type: "PUT"
+      dataType: 'json'
+      url: @location
+
 
   formattedFileSize: =>
     bytes = @file_size
