@@ -26,7 +26,7 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem 'mongoid'
+gem 'mongoid', '~> 2.4'
 gem 'mongoid_grid'
 gem 'bson_ext'
 gem 'rack-gridfs', :require=>'rack/gridfs'
