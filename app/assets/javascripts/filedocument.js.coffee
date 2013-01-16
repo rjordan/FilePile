@@ -7,6 +7,7 @@ class @FileDocument
     @file_size = data.file_size
     @tags = data.tags
     @location = "/files/" + @id
+    @tags=new Array unless @tags
 
   delete: =>
     $.ajax
@@ -27,7 +28,7 @@ class @FileDocument
       type: "PUT"
       dataType: 'json'
       url: @location
-
+      data: { id: @id, tags: @tags }
 
   formattedFileSize: =>
     bytes = @file_size

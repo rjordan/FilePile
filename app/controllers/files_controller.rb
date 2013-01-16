@@ -24,7 +24,9 @@ class FilesController < ApplicationController
   
   def create
     document = params['document']
-    tags = params['tags'].include?(',') ? params['tags'].split(',') : params['tags'].to_a
+    if params['tags']
+      tags = params['tags'].include?(',') ? params['tags'].split(',') : params['tags'].to_a
+    end
     @file = FileDocument.create(:tags=>tags)
     @file.set_data document
     @file.save

@@ -43,7 +43,7 @@ jQuery ->
 
   $('#fileupload').bind 'fileuploadsubmit', (e, data) ->
     data.dataType = 'json'
-    data.formData = { tags: window.fileDocs.filterTags }      #TODO This is wrong but I can't seem to fix it
+    #data.formData = { tags: window.fileDocs.filterTags }      #TODO This is wrong but I can't seem to fix it
 
   $('#fileupload').fileupload
     dataType: 'json'
