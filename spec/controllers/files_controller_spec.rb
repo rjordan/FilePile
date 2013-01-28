@@ -63,7 +63,7 @@ describe FilesController do
 
   describe "DELETE destroy" do
     it "removes a file" do
-      file.should_receive(:delete)
+      file.should_receive(:destroy)
       delete :destroy, {:id=>file.id}
     end
   end

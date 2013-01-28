@@ -5,9 +5,8 @@ class @FileDocument
     @file_name = data.file_name
     @fingerprint = data.fingerprint
     @file_size = data.file_size
-    @tags = data.tags
+    @tags = data.tags || new Array
     @location = "/files/" + @id
-    @tags=new Array unless @tags
 
   delete: =>
     $.ajax
@@ -22,13 +21,12 @@ class @FileDocument
     @tags = @tags.remove(tag)
 
   save: =>
-#    console.log "Had this been an actual function, a save would have occurred."
-    #TODO send update to document
     $.ajax
       type: "PUT"
       dataType: 'json'
       url: @location
       data: { id: @id, tags: @tags }
+    document.dispatchEvent(changeEvent)
 
   formattedFileSize: =>
     bytes = @file_size

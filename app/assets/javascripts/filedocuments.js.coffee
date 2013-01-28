@@ -51,8 +51,8 @@ class @FileDocuments
 
   fromUpload: (data) =>
     doc = new FileDocument
-      id: data.id
-      file_name: data.name
+      id: data._id
+      file_name: data.file_name
       file_size: data.file_size
       fingerprint: data.fingerprint
       tags: data.tags

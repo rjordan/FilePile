@@ -15,7 +15,7 @@ class FilesController < ApplicationController
   end
 
   def destroy
-    FileDocument.find(params['id']).delete
+    FileDocument.find(params['id']).destroy
     respond_to do |format|
       format.html { redirect_to files_path(:tags=>selected_tags) }
       format.json { render :nothing=>true, :status=>200  }

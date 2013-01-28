@@ -11,10 +11,10 @@ class FileDocument
   field :description
   attachment :file
   alias :name :file_name
-  
-  before_destroy do
 
-    self.file.destroy
+  before_destroy do
+    self.file = nil
+    save!
   end
 
   def set_data(filedata)
