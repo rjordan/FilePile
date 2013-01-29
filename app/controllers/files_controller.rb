@@ -25,7 +25,13 @@ class FilesController < ApplicationController
   def create
     document = params['document']
     if params['tags']
-      tags = params['tags'].include?(',') ? params['tags'].split(',') : params['tags'].to_a
+      if params['tags'].include?('[')
+        tags = JSON.parse(params['tags'])
+      elsif params['tags'].include?(',')
+        tags =  params['tags'].split(',')
+      else
+        tags = params['tags']
+      end
     end
     @file = FileDocument.create(:tags=>tags)
     @file.set_data document

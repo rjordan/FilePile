@@ -17,6 +17,12 @@
   </tr>
   """
 
+@tagsTemplate = """
+    {{#.}}
+      <span class="badge">{{.}}</span>
+    {{/.}}
+  """
+
 @changeEvent = new CustomEvent "changeEvent", {
   detail: null
   bubbles: true
@@ -62,6 +68,7 @@ class @FileDocuments
 
   addTagFilter: (tag) =>
     @filterTags.push(tag)
+    @filterTags = @filterTags.unique()
     document.dispatchEvent(changeEvent)
 
   removeTagFilter: (tag) =>
@@ -82,7 +89,10 @@ class @FileDocuments
     $('#fileList').empty()
     for file in @filteredFiles()
       $('#fileList').append(Mustache.render(fileTemplate, file))
+    @renderFilterTags()
 
+  renderFilterTags: =>
+    $('#tags').html(Mustache.render(tagsTemplate, @filterTags))
 
 ############ END NEW METHOD #############
 

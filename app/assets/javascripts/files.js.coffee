@@ -15,15 +15,25 @@ window.fileDocs = new FileDocuments()
 jQuery ->
   window.fileDocs.fetch()
 
+  window.tagBoxItems = ->
+    $('#new_tags').val().split(',').remove("")
+
+  window.allTagItems = ->
+    fileDocs.filterTags.concat(tagBoxItems())
+
+  $('#tags span').live 'click', ->
+    fileDocs.removeTagFilter($(this).text())
+
+  $('tr.filerow span.badge').live 'click', ->
+    fileDocs.addTagFilter($(this).text())
+
   $('#select-all').click ->
     $("INPUT[type='checkbox']").attr('checked', $(this).is(':checked'));
 
   $('#btn-add-tag').click ->
-    new_tags = $('#new_tags').val()
-    new_tag_array = new_tags.split(',')
     files = ( window.fileDocs.find(item) for item in selectedItems())
     for file in files
-      for tag in new_tag_array
+      for tag in tagBoxItems()
         file.addTag(tag)
       file.save()
     $('#new_tags').val('')
@@ -42,12 +52,13 @@ jQuery ->
   """
 
   $('#fileupload').bind 'fileuploadsubmit', (e, data) ->
-    data.dataType = 'json'
-    #data.formData = { tags: window.fileDocs.filterTags }      #TODO This is wrong but I can't seem to fix it
+    data.formData = { tags: JSON.stringify(allTagItems()) }      #TODO This is wrong but I can't seem to fix it
+    console.log data.formData
 
   $('#fileupload').fileupload
     dataType: 'json'
     url: '/files'
+    #formData: { tags: allTagItems() }
     add: (e, data) ->
       data.context = $(Mustache.render(window.uploadTemplate, data.files[0]))
       $('#file-list').append(data.context)
