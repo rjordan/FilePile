@@ -40,8 +40,8 @@ class @FileDocuments
     file
 
   delete: (id) =>
-    file = item for item in @files when item.id is id
-    @files.remove(file)
+    file = @find(id)
+    @files = @files.remove(file)
     file.delete()
     document.dispatchEvent(changeEvent)
 

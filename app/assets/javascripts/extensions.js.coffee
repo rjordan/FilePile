@@ -1,19 +1,19 @@
-Array.prototype.unique = () ->
+Array::unique = () ->
   a = []
   for e in @
     a.push(e) unless e in a
-  return a
+  a
 
-Array.prototype.remove = (v) =>
-   $.grep @,(e)-> e!=v
+Array::remove = (v) ->
+  $.grep @,(e)->e!=v
 
-#Array.prototype.contains = (item) ->
+#Array::contains = (item) ->
 #  @.indexOf(item) != -1
 
-Array.prototype.compact = () ->
+Array::compact = () ->
     (item for item in @ when item isnt null)
 
-Array.prototype.flatten = () ->
+Array::flatten = () ->
     flattened = []
     for element in @
       if element instanceof Array
