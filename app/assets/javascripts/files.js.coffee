@@ -21,10 +21,10 @@ jQuery ->
   window.allTagItems = ->
     fileDocs.filterTags.concat(tagBoxItems())
 
-  $('#tags span').live 'click', ->
+  $(document).on 'click', '#tags span', ->
     fileDocs.removeTagFilter($(this).text())
 
-  $('tr.filerow span.badge').live 'click', ->
+  $(document).on 'click', 'tr.filerow span.badge', ->
     fileDocs.addTagFilter($(this).text())
 
   $('#select-all').click ->

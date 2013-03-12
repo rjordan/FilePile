@@ -1,7 +1,7 @@
 class @FileDocument
   constructor: (data) ->
-    @id = data.id
-    @file_id = data.file_id
+    @id = data.id['$oid']
+    @file_id = data.file_id['$oid']
     @file_name = data.file_name
     @fingerprint = data.fingerprint
     @file_size = data.file_size
