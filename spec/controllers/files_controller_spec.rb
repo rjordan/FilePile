@@ -53,6 +53,18 @@ describe FilesController do
     end
   end
 
+  describe "GET index with fingerprint" do
+    it "should not find a missing file" do
+      get :index, {:fingerprint=>Digest::SHA512.hexdigest('test')}
+      should respond_with(:not_found)
+    end
+    it "should find a file that already exists" do
+      file = FactoryGirl.create(:file_document, :tags=>['tag2'], :fingerprint=>Digest::SHA512.hexdigest('test'))
+      get :index, {:fingerprint=>file.fingerprint}
+      should respond_with(:found)
+    end
+  end
+
   describe "POST create" do
     it "creates a new @file" do
       tags = ['tag1']

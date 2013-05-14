@@ -2,8 +2,16 @@ class FilesController < ApplicationController
   respond_to :html, :json
 
   def index
+    if params['fingerprint']
+      files = FileDocument.where(:fingerprint=>params['fingerprint'])
+      if files.any?
+        render :nothing=>true, :status =>:found and return
+      else
+        render :nothing=>true, :status =>:not_found and return
+      end
+    end
     #thumbnails 260x180 looks good
-    @selected_tags = params["tags"].blank? ? [] : params["tags"]
+    @selected_tags = params['tags'].blank? ? [] : params['tags']
     @files = FileDocument.asc(:file_name)
     @files = @files.all_in(:tags=>@selected_tags) unless @selected_tags.empty?
     respond_with @files

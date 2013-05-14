@@ -4,6 +4,9 @@ class FileDocument
   include Mongoid::Document
   include Mongoid::Grid
 
+  include Mongoid::Timestamps
+  #include Mongoid::Taggable
+
   attr_accessible :tags
 
   field :fingerprint, :type=>String #sha_512
@@ -26,6 +29,8 @@ class FileDocument
   def self.all_tags
     all.collect { |d| d.tags }.flatten.uniq.compact.sort
   end
+
+  index({fingerprint: 1}, {unique: true})
 
   #before_validation do
   #  puts "File Id: #{self.file_id}"
