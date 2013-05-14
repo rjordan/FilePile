@@ -136,7 +136,7 @@ GEM
       mime-types
     multi_json (1.6.1)
     mustache (0.99.4)
-    nokogiri (1.5.6)
+    nokogiri (1.5.9)
     phantomjs (1.8.1.0)
       poltergeist
     poltergeist (1.1.0)
