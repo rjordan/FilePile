@@ -82,6 +82,7 @@ describe FilesController do
 
   describe 'GET to get_data' do
     it 'should send the file data' do
+      file.stub(:file).and_return(stub(data: [], content_type: 'text/html'))
       FileDocument.should_receive(:find).with('1').and_return(file)
       get :get_data, :id=>1, :filename=>'123.mp3'
     end
