@@ -57,6 +57,11 @@ class FilesController < ApplicationController
     respond_with @file
   end
 
+  def get_data
+    document = FileDocument.find(params['id'])
+    send_data document.file.data, type: document.file.content_type, disposition: 'inline'
+  end
+
   private
 
   def selected_tags

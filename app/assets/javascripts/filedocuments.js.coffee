@@ -4,7 +4,7 @@
      <input type="checkbox" name="file_ids[]" value="{{id}}"></input>
    </td>
    <td>
-     <a href="/gridfs/{{file_id}}/{{file_name}}">{{file_name}}</a>
+     <a href="/files/{{id}}/{{file_name}}">{{file_name}}</a>
    </td>
    <td class="tags">
      {{#tags}}

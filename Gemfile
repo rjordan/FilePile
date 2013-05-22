@@ -26,10 +26,9 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
+gem 'bson_ext'
 gem 'mongoid', '~> 2.4'
 gem 'mongoid_grid'
-gem 'bson_ext'
-gem 'rack-gridfs', :require=>'rack/gridfs'
 gem 'rabl'
 gem 'jquery-fileupload-rails'
 
@@ -37,7 +36,6 @@ group :development do
   gem 'thin'
   gem 'awesome_print'
   gem 'wirble'
-  gem 'looksee'
 end
 
 group :test, :development do
@@ -56,7 +54,6 @@ group :test do
   gem 'shoulda-matchers'
   gem 'cucumber-rails', :require=>false
   gem 'capybara'
-  #gem 'database_cleaner'
 end
 
 gem 'spine-rails'
