@@ -12,8 +12,7 @@ class FilesController < ApplicationController
     end
     #thumbnails 260x180 looks good
     @selected_tags = params['tags'].blank? ? [] : params['tags']
-    @files = FileDocument.asc(:file_name)
-    @files = @files.all_in(:tags=>@selected_tags) unless @selected_tags.empty?
+    @files = FileDocument.find_by_tags(@selected_tags)
     respond_with @files
   end
 

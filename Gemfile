@@ -56,5 +56,5 @@ group :test do
   gem 'capybara'
 end
 
-gem 'spine-rails'
+#gem 'spine-rails'
 gem 'smt_rails'

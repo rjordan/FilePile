@@ -14,10 +14,15 @@ class FileDocument
   field :description
   attachment :file
   alias :name :file_name
+  default_scope -> { asc(:file_name) }
 
   before_destroy do
     self.file = nil
     save!
+  end
+
+  def self.find_by_tags(tags)
+    (tags.empty? ? all : all_in(:tags=>tags)).to_a
   end
 
   def set_data(filedata)
