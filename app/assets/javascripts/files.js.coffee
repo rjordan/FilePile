@@ -38,6 +38,13 @@ jQuery ->
       file.save()
     $('#new_tags').val('')
 
+  $(document).on 'click', 'td.tags i.icon-remove', ->
+    tag = $(this).parent('.badge').text()
+    doc_id = $(this).parents('tr.filerow').data('id')
+    window.fileDocs.find(doc_id).removeTag(tag)
+    document.dispatchEvent(changeEvent)
+    false
+
   $('#btn-delete').click ->
       list = selectedItems()
       if confirm("Really delete #{list}")
@@ -68,6 +75,7 @@ jQuery ->
         data.context.remove()
         #alert data.files[0].name
         window.fileDocs.fromUpload data.result
+        document.dispatchEvent(changeEvent)
     progress: (e, data) ->
       if data.context
         progress = parseInt(data.loaded / data.total * 100, 10)

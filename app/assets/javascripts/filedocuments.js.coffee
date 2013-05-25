@@ -8,7 +8,7 @@
    </td>
    <td class="tags">
      {{#tags}}
-      <span class="badge">{{.}}</span>
+      <span class="badge">{{.}}<i class="icon-remove" /></span>
      {{/tags}}
    </td>
    <td class="align-right span2">
