@@ -3,10 +3,10 @@
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
 require File.expand_path('../config/application', __FILE__)
-require 'guard/jasmine/task'
+#require 'guard/jasmine/task'
 
 Filepile::Application.load_tasks
-Guard::JasmineTask.new
+#Guard::JasmineTask.new
 
-task :full => [:spec, 'guard:jasmine'] do
-end
+#task :full => [:spec, 'guard:jasmine'] do
+#end
