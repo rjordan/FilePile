@@ -58,3 +58,5 @@ end
 
 #gem 'spine-rails'
 gem 'smt_rails'
+gem 'unicorn-rails'
+gem 'foreman'
