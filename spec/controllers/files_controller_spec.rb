@@ -68,7 +68,9 @@ describe FilesController do
   describe 'POST create' do
     it 'creates a new @file' do
       tags = %w( tag1 )
-      post :create, :tags=>tags, :document=>fixture_file_upload(Rails.root.join('spec/files/test_document.txt'), 'text/plain')
+      post :create,
+           :tags=>tags,
+           :document=>fixture_file_upload(Rails.root.join('spec/files/test_document.txt'), 'text/plain')
       should redirect_to files_path(:tags=>tags)
     end
   end

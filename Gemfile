@@ -39,7 +39,7 @@ group :development do
 end
 
 group :test, :development do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '< 3.0'
   gem 'jasminerice'
   gem 'guard-jasmine'
   gem 'guard-rspec'

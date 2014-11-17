@@ -3,7 +3,6 @@ require 'digest/sha2'
 class FileDocument
   include Mongoid::Document
   include Mongoid::Grid
-
   include Mongoid::Timestamps
   #include Mongoid::Taggable
 
